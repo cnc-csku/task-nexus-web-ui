@@ -1,14 +1,19 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/table";
-import ProjectsTableHeader from "@/components/project/ProjectsTableHeader";
 import { Link } from "@heroui/link";
 import { Avatar } from "@heroui/avatar";
 import { Chip } from "@heroui/chip";
 import { useRouter } from "next/navigation";
 import { Key } from "react";
+import { Project } from "@/interfaces/Project";
+import { ProjectStatus } from "@/enums/Project";
 
-export default function ProjectsTable() {
+export interface ProjectsTableProps {
+  projects: Project[];
+}
+
+export default function ProjectsTable({ projects }: ProjectsTableProps) {
   const router = useRouter();
 
   const rowNavigateAction = (key: Key) => {
@@ -17,7 +22,6 @@ export default function ProjectsTable() {
 
   return (
     <Table
-      topContent={<ProjectsTableHeader />}
       onRowAction={rowNavigateAction}
       selectionMode="single"
       aria-label="Projects Table"
@@ -28,30 +32,31 @@ export default function ProjectsTable() {
         <TableColumn>Owner</TableColumn>
         <TableColumn className="text-center">Status</TableColumn>
       </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell>Senior Project</TableCell>
-          <TableCell>SP</TableCell>
-          <TableCell>
-            <Link className="text-sm">
-              <Avatar
-                isBordered
-                className="transition-transform mr-1"
-                size="sm"
-                src="https://avatars.githubusercontent.com/u/86820985?v=4"
-              />{" "}
-              Tanaroeg O-Charoen
-            </Link>
-          </TableCell>
-          <TableCell className="text-center">
-            <Chip
-              color="success"
-              variant="flat"
-            >
-              Active
-            </Chip>
-          </TableCell>
-        </TableRow>
+      <TableBody emptyContent={"No projects found"}>
+        {projects.map((project) => (
+          <TableRow key={project.id}>
+            <TableCell>{project.name}</TableCell>
+            <TableCell>{project.projectPrefix}</TableCell>
+            <TableCell>
+              <Link className="text-sm">
+                <Avatar
+                  className="transition-transform mr-1"
+                  size="sm"
+                  src={project.ownerProfileUrl}
+                />{" "}
+                {project.ownerDisplayName}
+              </Link>
+            </TableCell>
+            <TableCell className="text-center">
+              <Chip
+                color={project.status === ProjectStatus.Active ? "success" : "default"}
+                variant="flat"
+              >
+                {project.status}
+              </Chip>
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

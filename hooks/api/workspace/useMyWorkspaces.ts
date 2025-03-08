@@ -1,7 +1,7 @@
 import axios from "@/lib/axios/axios.config";
 import { useQuery } from "@tanstack/react-query";
 import workspaceQueryKeys from "./workspaceQueryKeys";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { Workspace } from "@/interfaces/Workspace";
 
 
@@ -18,10 +18,15 @@ const fetchMyWorkspacesFn = async () => {
 }
 
 const useMyWorkspaces = () => {
-    
+    const { data: session, status } = useSession();
+
+    const isAuthenticated = status === 'authenticated';
+    const userId = session?.user?.id;
+
     return useQuery({
-        queryKey: workspaceQueryKeys.my('m'),
+        queryKey: workspaceQueryKeys.my(userId!),
         queryFn: fetchMyWorkspacesFn,
+        enabled: isAuthenticated,
     });
 }
 

@@ -13,7 +13,7 @@ export interface SideBarProps {
   isOpen: boolean;
 }
 export default function SideBar({ isOpen }: SideBarProps) {
-  const { projId } = useParams<{ projId: string }>();
+  const { projectId } = useParams<{ projectId: string }>();
 
   return (
     <>
@@ -32,27 +32,27 @@ export default function SideBar({ isOpen }: SideBarProps) {
             <div className="mt-3 flex flex-col gap-2">
               <SideBarItem
                 name="Board"
-                href={`/projects/${projId}/board`}
+                href={`/projects/${projectId}/board`}
                 startIcon={<MdDashboard className="text-lg" />}
               />
               <SideBarItem
                 name="Tasks"
-                href={`/projects/${projId}/tasks`}
+                href={`/projects/${projectId}/tasks`}
                 startIcon={<GoTasklist className="text-lg" />}
               />
               <SideBarItem
                 name="Sprint"
-                href={`/projects/${projId}/sprints`}
+                href={`/projects/${projectId}/sprints`}
                 startIcon={<GrPowerCycle className="text-lg" />}
               />
               <SideBarItem
                 name="Timeline"
-                href={`/projects/${projId}/timeline`}
+                href={`/projects/${projectId}/timeline`}
                 startIcon={<MdTimeline className="text-lg" />}
               />
               <SideBarItem
                 name="Report"
-                href={`/projects/${projId}/report`}
+                href={`/projects/${projectId}/report`}
                 startIcon={<MdAnalytics className="text-lg" />}
               />
             </div>

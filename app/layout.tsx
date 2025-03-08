@@ -38,19 +38,19 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={monserat.className + " " + notoSansThai.className}>
-        <HeroUIProvider>
+        <NextAuthProvider session={session}>
           <QueryClientProvider>
-            <NextAuthProvider session={session}>
-              <ReactQueryDevtools initialIsOpen={false} />
+            <ReactQueryDevtools initialIsOpen={false} />
+            <HeroUIProvider>
               <Toaster
                 position="top-right"
                 closeButton
                 richColors
               />
               <div className="bg-white">{children}</div>
-            </NextAuthProvider>
+            </HeroUIProvider>
           </QueryClientProvider>
-        </HeroUIProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );
