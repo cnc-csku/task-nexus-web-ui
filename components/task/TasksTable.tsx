@@ -25,9 +25,7 @@ export default function TasksTable() {
       </TableHeader>
       <TableBody>
         <TableRow>
-          <TableCell>
-            SR-1
-          </TableCell>
+          <TableCell>SR-1</TableCell>
           <TableCell>
             <Chip
               color="primary"

@@ -1,19 +1,17 @@
 "use client";
-import Header from '@/components/ui/Header'
-import React from 'react'
-import TasksTable from './_components/TasksTable'
-import CreateTaskModal from './_components/CreateTaskModal'
-import { useDisclosure } from '@heroui/modal'
-import { Button } from '@heroui/button'
+import Header from "@/components/ui/Header";
+import React from "react";
+import { useDisclosure } from "@heroui/modal";
+import { Button } from "@heroui/button";
+import TasksTable from "@/components/task/TasksTable";
+import CreateTaskModal from "@/components/task/CreateTaskModal";
 
 export default function ProjectTaskPage() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <div>
-      <Header>
-        Tasks
-      </Header>
+      <Header>Tasks</Header>
       <div className="flex mb-2 justify-between items-center">
         <div>
           <Button
@@ -31,5 +29,5 @@ export default function ProjectTaskPage() {
         onOpenChange={onOpenChange}
       />
     </div>
-  )
+  );
 }

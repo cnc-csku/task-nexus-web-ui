@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import LoginForm from "./_components/LoginForm";
+import LoginForm from "@/components/auth/LoginForm";
 import { UserLoginFormType } from "@/interfaces/User";
 import { useState } from "react";
 import { signIn } from "next-auth/react";

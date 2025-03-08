@@ -6,7 +6,6 @@ import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
 import { Avatar } from "@heroui/avatar";
 import { Input } from "@heroui/input";
-import { Select, SelectItem } from "@heroui/select";
 
 export default function TaskDetailPage() {
   return (
