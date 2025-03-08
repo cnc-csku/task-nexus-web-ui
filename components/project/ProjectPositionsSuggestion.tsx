@@ -9,8 +9,9 @@ export interface ProjectPositionsSuggestionProps {
 }
 
 export default function ProjectPositionsSuggestion({ positions, appendFn }: ProjectPositionsSuggestionProps) {
-  const positionsSuggetion = [
-    "Developer",
+  const positionsSuggestion = [
+    "Frontend Developer",
+    "Backend Developer",
     "UI/UX Designer",
     "Project Manager",
     "Quality Assurance",
@@ -19,19 +20,11 @@ export default function ProjectPositionsSuggestion({ positions, appendFn }: Proj
     "Product Owner",
     "Data Analyst",
     "DevOps Engineer",
-    "Technical Writer",
     "System Analyst",
     "Database Administrator",
-    "Network Administrator",
-    "Security Analyst",
-    "IT Support",
-    "IT Manager",
-    "IT Director",
-    "IT Specialist",
-    "IT Consultant",
   ];
 
-  const filteredPositions = positionsSuggetion.filter((position) => !positions.includes(position));
+  const filteredPositions = positionsSuggestion.filter((position) => !positions.includes(position));
 
   return (
     <div className="flex flex-wrap gap-2">
