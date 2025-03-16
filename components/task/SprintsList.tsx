@@ -3,7 +3,6 @@
 import useSprintsByProjectId from "@/hooks/api/sprint/useSprintsByProjectId";
 import { Accordion, AccordionItem } from "@heroui/accordion";
 import LoadingScreen from "../ui/LoadingScreen";
-import { useState } from "react";
 import { Project } from "@/interfaces/Project";
 import { Task } from "@/interfaces/Task";
 import SprintItem from "./SprintItem";
@@ -35,8 +34,6 @@ export default function SprintsList({
   allEpics,
   onOpenSideTaskDetail,
 }: SprintsListProps) {
-  const [selectedSprints, setSelectedSprints] = useState<string[]>([]);
-
   const {
     data: sprints,
     isPending: isSprintPending,
@@ -69,7 +66,6 @@ export default function SprintsList({
       <Accordion
         selectionMode="multiple"
         variant="splitted"
-        defaultSelectedKeys={selectedSprints}
       >
         {sprints.map((sprint) => (
           <AccordionItem
