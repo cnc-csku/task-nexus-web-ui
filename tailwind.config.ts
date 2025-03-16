@@ -6,13 +6,13 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/components/(accordion|alert|autocomplete|avatar|badge|breadcrumbs|button|calendar|card|checkbox|chip|code|date-input|date-picker|divider|dropdown|form|image|input|kbd|link|listbox|menu|modal|navbar|pagination|popover|progress|radio|ripple|scroll-shadow|select|skeleton|slider|snippet|spacer|spinner|toggle|table|tabs|user).js",
+    "./node_modules/@heroui/theme/dist/components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#333333", 
+          DEFAULT: "#333333",
           100: "#E6E6E6", // Very light gray
           200: "#CCCCCC", // Light gray
           300: "#B3B3B3", // Softer gray
