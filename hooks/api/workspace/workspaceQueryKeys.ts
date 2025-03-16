@@ -1,6 +1,6 @@
 const workspaceQueryKeys = {
     all: ['Workspaces'],
-    my: (userId: string) => ['Workspaces', 'My', userId],
+    my: (userId: string) => [...workspaceQueryKeys.all, 'My', userId],
     byId: (id: string) => [...workspaceQueryKeys.all, id],
 };
 

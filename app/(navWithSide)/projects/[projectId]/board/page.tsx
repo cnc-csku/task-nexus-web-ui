@@ -26,9 +26,9 @@ export default function BoardPage() {
       </div>
       <div>
         <Select placeholder="Filter Assignee">
-          <SelectItem value="1">Tanaroeg O-Charoen</SelectItem>
-          <SelectItem value="2">John Doe</SelectItem>
-          <SelectItem value="3">Jane Doe</SelectItem>
+          <SelectItem>Tanaroeg O-Charoen</SelectItem>
+          <SelectItem>John Doe</SelectItem>
+          <SelectItem>Jane Doe</SelectItem>
         </Select>
       </div>
       <div className="grid grid-cols-3 gap-6 mt-5">
