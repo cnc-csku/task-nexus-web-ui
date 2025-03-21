@@ -34,7 +34,7 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
       </TableHeader>
       <TableBody emptyContent={"No projects found"}>
         {projects.map((project) => (
-          <TableRow key={project.id}>
+          <TableRow key={project.id} className="cursor-pointer">
             <TableCell>{project.name}</TableCell>
             <TableCell>{project.projectPrefix}</TableCell>
             <TableCell>
