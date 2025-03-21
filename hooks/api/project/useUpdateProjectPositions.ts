@@ -7,33 +7,38 @@ import { MessageResponse } from "@/interfaces/API";
 import { accessTokenHeader } from "@/utils/apiUtils";
 
 const updateProjectPositions = async (
-    token: string,
-    projectId: string,
-    request: UpdateProjectPositionsType
+  token: string,
+  projectId: string,
+  request: UpdateProjectPositionsType
 ) => {
-    const { data } = await axios.put<MessageResponse>(`/projects/v1/${projectId}/positions`, request, accessTokenHeader(token));
+  const { data } = await axios.put<MessageResponse>(
+    `/projects/v1/${projectId}/positions`,
+    request,
+    accessTokenHeader(token)
+  );
 
-    return data;
-}
+  return data;
+};
 
 interface Props {
-    projectId: string;
+  projectId: string;
 }
 
 const useUpdateProjectPositions = ({ projectId }: Props) => {
-    const { data: session } = useSession();
+  const { data: session } = useSession();
 
-    const token = session?.user?.token;
-    const userId = session?.user?.id;
-    const queryClient = useQueryClient();
+  const token = session?.user?.token;
+  const userId = session?.user?.id;
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (request: UpdateProjectPositionsType) => updateProjectPositions(token!, projectId, request),
-        onSuccess() {
-            queryClient.invalidateQueries({ queryKey: projectQueryKeys.my(userId!) });
-            queryClient.invalidateQueries({ queryKey: projectQueryKeys.byId(projectId) });
-        },
-    });
+  return useMutation({
+    mutationFn: (request: UpdateProjectPositionsType) =>
+      updateProjectPositions(token!, projectId, request),
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: projectQueryKeys.my(userId!) });
+      queryClient.invalidateQueries({ queryKey: projectQueryKeys.byId(projectId) });
+    },
+  });
 };
 
 export default useUpdateProjectPositions;

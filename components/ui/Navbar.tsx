@@ -17,7 +17,7 @@ export default function Navbar({ sideBarToggle }: NavbarProps) {
       maxWidth="full"
       className="bg-white"
     >
-      { sideBarToggle && (
+      {sideBarToggle && (
         <NavbarContent>
           <Button
             variant="light"

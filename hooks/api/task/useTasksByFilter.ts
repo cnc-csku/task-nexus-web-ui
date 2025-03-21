@@ -6,26 +6,28 @@ import { ListTasksFilter, Task } from "@/interfaces/Task";
 import { accessTokenHeader } from "@/utils/apiUtils";
 import { toQueryParams } from "@/converters/queryParamsConverter";
 
-
 const fetchTasksByFilter = async (token: string, projectId: string, params: ListTasksFilter) => {
-    const queries = toQueryParams(params);
+  const queries = toQueryParams(params);
 
-    const response = await axios.get<Task[]>(`/projects/v1/${projectId}/tasks/v1?${queries}`, accessTokenHeader(token));
+  const response = await axios.get<Task[]>(
+    `/projects/v1/${projectId}/tasks/v1?${queries}`,
+    accessTokenHeader(token)
+  );
 
-    return response.data;
-}
+  return response.data;
+};
 
 const useTasksByFilter = (projectId: string, filter: ListTasksFilter) => {
-    const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
-    const isAuthenticated = status === 'authenticated';
-    const token = session?.user?.token;
+  const isAuthenticated = status === "authenticated";
+  const token = session?.user?.token;
 
-    return useQuery({
-        queryKey: taskQueryKeys.byProjectIdWithFilter(projectId, filter),
-        queryFn: () => fetchTasksByFilter(token!, projectId, filter),
-        enabled: isAuthenticated,
-    });
-}
+  return useQuery({
+    queryKey: taskQueryKeys.byProjectIdWithFilter(projectId, filter),
+    queryFn: () => fetchTasksByFilter(token!, projectId, filter),
+    enabled: isAuthenticated,
+  });
+};
 
-export default useTasksByFilter
+export default useTasksByFilter;

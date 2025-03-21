@@ -4,22 +4,22 @@
  * @returns The formatted date string or "Invalid date" if the input is invalid
  */
 export function formatDateAsMMMDDYYYY(date: Date | string | number): string {
-    try {
-        const dateObject = date instanceof Date ? date : new Date(date);
+  try {
+    const dateObject = date instanceof Date ? date : new Date(date);
 
-        // Check if the date is valid
-        if (isNaN(dateObject.getTime())) {
-            return 'Invalid date';
-        }
-
-        const formatter = new Intl.DateTimeFormat('en-US', {
-            month: 'short', // "MMM" - abbreviated month name
-            day: '2-digit', // "DD" - day of month, zero-padded
-            year: 'numeric', // "YYYY" - 4-digit year
-        });
-
-        return formatter.format(dateObject);
-    } catch (error) {
-        return 'Invalid date';
+    // Check if the date is valid
+    if (isNaN(dateObject.getTime())) {
+      return "Invalid date";
     }
+
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      month: "short", // "MMM" - abbreviated month name
+      day: "2-digit", // "DD" - day of month, zero-padded
+      year: "numeric", // "YYYY" - 4-digit year
+    });
+
+    return formatter.format(dateObject);
+  } catch (error) {
+    return "Invalid date";
+  }
 }

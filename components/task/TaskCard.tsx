@@ -13,7 +13,7 @@ export default function TaskCard() {
         >
           Task
         </Chip>
-         Create a new design
+        Create a new design
       </CardHeader>
       <CardBody>
         <p className="text-sm text-gray-500">Task description goes here...</p>

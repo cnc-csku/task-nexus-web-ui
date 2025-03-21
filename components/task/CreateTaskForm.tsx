@@ -76,8 +76,8 @@ export default function CreateTaskForm({
     taskLevel === TaskLevel.Level0
       ? [TaskType.Epic]
       : TaskLevel.Level1
-      ? [TaskType.Story, TaskType.Task, TaskType.Bug]
-      : [TaskType.SubTask];
+        ? [TaskType.Story, TaskType.Task, TaskType.Bug]
+        : [TaskType.SubTask];
 
   const editor = useCreateBlockNote();
 

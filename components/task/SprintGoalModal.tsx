@@ -16,11 +16,11 @@ export default function SprintGoalModal({ isOpen, onOpenChange }: SprintGoalModa
           <>
             <ModalHeader>Sprint Goal</ModalHeader>
             <ModalBody className="mx-3">
-                <ul className="list-disc">
-                    <li>Goal 1</li>
-                    <li>Goal 2</li>
-                    <li>Goal 3</li> 
-                </ul>
+              <ul className="list-disc">
+                <li>Goal 1</li>
+                <li>Goal 2</li>
+                <li>Goal 3</li>
+              </ul>
             </ModalBody>
           </>
         )}

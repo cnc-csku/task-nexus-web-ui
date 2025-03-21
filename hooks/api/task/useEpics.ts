@@ -5,24 +5,26 @@ import taskQueryKeys from "./taskQueryKeys";
 import { Task } from "@/interfaces/Task";
 import { accessTokenHeader } from "@/utils/apiUtils";
 
-
 const fetchEpics = async (token: string, projectId: string) => {
-    const response = await axios.get<Task[]>(`/projects/v1/${projectId}/tasks/v1/epic`, accessTokenHeader(token));
+  const response = await axios.get<Task[]>(
+    `/projects/v1/${projectId}/tasks/v1/epic`,
+    accessTokenHeader(token)
+  );
 
-    return response.data;
-}
+  return response.data;
+};
 
 const useEpics = (projectId: string) => {
-    const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
-    const isAuthenticated = status === 'authenticated';
-    const token = session?.user?.token;
+  const isAuthenticated = status === "authenticated";
+  const token = session?.user?.token;
 
-    return useQuery({
-        queryKey: taskQueryKeys.epics(projectId),
-        queryFn: () => fetchEpics(token!, projectId),
-        enabled: isAuthenticated,
-    });
-}
+  return useQuery({
+    queryKey: taskQueryKeys.epics(projectId),
+    queryFn: () => fetchEpics(token!, projectId),
+    enabled: isAuthenticated,
+  });
+};
 
-export default useEpics
+export default useEpics;

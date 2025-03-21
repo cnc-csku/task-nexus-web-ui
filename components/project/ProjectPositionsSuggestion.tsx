@@ -8,7 +8,10 @@ export interface ProjectPositionsSuggestionProps {
   appendFn: (position: string) => void;
 }
 
-export default function ProjectPositionsSuggestion({ positions, appendFn }: ProjectPositionsSuggestionProps) {
+export default function ProjectPositionsSuggestion({
+  positions,
+  appendFn,
+}: ProjectPositionsSuggestionProps) {
   const positionsSuggestion = [
     "Frontend Developer",
     "Backend Developer",

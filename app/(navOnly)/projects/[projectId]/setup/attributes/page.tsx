@@ -16,7 +16,9 @@ export default function SetupProjectAttributes() {
   const router = useRouter();
 
   const { data: project, isPending, error } = useFindProjectById(projectId);
-  const { mutateAsync, isPending: isUpdatePending } = useUpdateProjectAttributesTemplate({ projectId });
+  const { mutateAsync, isPending: isUpdatePending } = useUpdateProjectAttributesTemplate({
+    projectId,
+  });
 
   if (isPending) {
     return <LoadingScreen />;
@@ -32,7 +34,6 @@ export default function SetupProjectAttributes() {
     try {
       await mutateAsync(data);
       router.push(`/projects/${projectId}/tasks`);
-
     } catch (error) {
       toast.error(getApiErrorMessage(error));
       return;

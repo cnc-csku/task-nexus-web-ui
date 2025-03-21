@@ -3,12 +3,7 @@ import { AttributeTemplate } from "@/interfaces/Project";
 import { CreateTaskRequestType } from "@/interfaces/Task";
 import { Input } from "@heroui/input";
 import { Checkbox } from "@heroui/checkbox";
-import {
-  Control,
-  Controller,
-  UseFormRegister,
-  UseFormResetField,
-} from "react-hook-form";
+import { Control, Controller, UseFormRegister, UseFormResetField } from "react-hook-form";
 import { DatePicker } from "@heroui/date-picker";
 import { fromDate } from "@internationalized/date";
 import { IoMdClose } from "react-icons/io";

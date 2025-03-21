@@ -1,7 +1,7 @@
-import { UserLoginRequest, UserLoginResponse } from '@/interfaces/User';
-import axios from '@/lib/axios/axios.config';
-import { AuthOptions } from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
+import { UserLoginRequest, UserLoginResponse } from "@/interfaces/User";
+import axios from "@/lib/axios/axios.config";
+import { AuthOptions } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 
 export const authOptions: AuthOptions = {
   debug: true,
@@ -13,16 +13,16 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          return null
+          return null;
         }
 
         try {
           const payload: UserLoginRequest = {
             email: credentials.email,
             password: credentials.password,
-          }
+          };
 
-          const user = await axios.post<UserLoginResponse>('/auth/v1/login', payload);
+          const user = await axios.post<UserLoginResponse>("/auth/v1/login", payload);
 
           const response = user.data;
 
@@ -36,17 +36,16 @@ export const authOptions: AuthOptions = {
             tokenExpireAt: new Date(response.tokenExpireAt),
             createdAt: new Date(response.createdAt),
             updatedAt: new Date(response.updatedAt),
-          }
-
+          };
         } catch (error) {
-          console.log('Auth Error', error);
-          return null
+          console.log("Auth Error", error);
+          return null;
         }
       },
     }),
   ],
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -70,9 +69,9 @@ export const authOptions: AuthOptions = {
       }
 
       return session;
-    }
+    },
   },
   pages: {
-    signIn: '/auth/login',
+    signIn: "/auth/login",
   },
 };
