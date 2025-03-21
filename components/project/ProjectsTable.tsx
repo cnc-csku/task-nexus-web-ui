@@ -17,7 +17,7 @@ export default function ProjectsTable({ projects }: ProjectsTableProps) {
   const router = useRouter();
 
   const rowNavigateAction = (key: Key) => {
-    router.push("/projects/1/board");
+    router.push(`/projects/${key.toString()}/board`);
   };
 
   return (

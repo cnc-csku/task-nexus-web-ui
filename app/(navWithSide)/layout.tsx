@@ -17,7 +17,7 @@ export default function MainLayout({
   };
 
   return (
-    <div className="grid grid-cols-12">
+    <div className="grid grid-cols-12 h-screen overflow-hidden">
       <div className="col-span-2">
         <SideBar isOpen={isSideBarOpen} />
       </div>

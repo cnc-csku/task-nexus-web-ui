@@ -1,35 +1,50 @@
 "use client";
-import Header from '@/components/ui/Header'
-import React from 'react'
-import TasksTable from './_components/TasksTable'
-import CreateTaskModal from './_components/CreateTaskModal'
-import { useDisclosure } from '@heroui/modal'
-import { Button } from '@heroui/button'
+
+import { useParams } from "next/navigation";
+import LoadingScreen from "@/components/ui/LoadingScreen";
+import useFindProjectById from "@/hooks/api/project/useFindProjectById";
+import BackLog from "@/components/task/BackLog";
+import useAllProjectMembers from "@/hooks/api/project/useAllProjectMembers";
+import useEpics from "@/hooks/api/task/useEpics";
 
 export default function ProjectTaskPage() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { projectId } = useParams<{ projectId: string }>();
+
+  const {
+    data: project,
+    isPending: isProjectPending,
+    error: projectError,
+  } = useFindProjectById(projectId);
+
+  const {
+    data: members,
+    isPending: isMemberPeding,
+    error: memberError,
+  } = useAllProjectMembers(projectId, 20);
+
+  const { data: epics, isPending: isEpicsPending, error: epicsError } = useEpics(projectId);
+
+  if (isProjectPending || isMemberPeding || isEpicsPending) {
+    return <LoadingScreen />;
+  }
+
+  if (projectError) {
+    return <div>Error: {projectError.message}</div>;
+  }
+
+  if (memberError) {
+    return <div>Error: {memberError.message}</div>;
+  }
+
+  if (epicsError) {
+    return <div>Error: {epicsError.message}</div>;
+  }
 
   return (
-    <div>
-      <Header>
-        Tasks
-      </Header>
-      <div className="flex mb-2 justify-between items-center">
-        <div>
-          <Button
-            variant="flat"
-            color="primary"
-            onPress={onOpen}
-          >
-            Create Task
-          </Button>
-        </div>
-      </div>
-      <TasksTable />
-      <CreateTaskModal
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-      />
-    </div>
-  )
+    <BackLog
+      members={members}
+      project={project}
+      epics={epics}
+    />
+  );
 }

@@ -1,6 +1,10 @@
 "use client";
 
-import { AttributeTemplate, UpdateProjectAttributesTemplatesSchema, UpdateProjectAttributesTemplatesType } from "@/interfaces/Project";
+import {
+  AttributeTemplate,
+  UpdateProjectAttributesTemplatesSchema,
+  UpdateProjectAttributesTemplatesType,
+} from "@/interfaces/Project";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Link } from "@heroui/link";
@@ -19,7 +23,12 @@ export interface UpdateProjectAttributesFormProps {
   submitFn: (data: UpdateProjectAttributesTemplatesType) => void;
 }
 
-export default function UpdateProjectAttributesForm({ projectId, projectAttributes, isLoading, submitFn }: UpdateProjectAttributesFormProps) {
+export default function UpdateProjectAttributesForm({
+  projectId,
+  projectAttributes,
+  isLoading,
+  submitFn,
+}: UpdateProjectAttributesFormProps) {
   const {
     register,
     handleSubmit,
@@ -70,10 +79,7 @@ export default function UpdateProjectAttributesForm({ projectId, projectAttribut
               {...register(`attributesTemplates.${index}.type`)}
             >
               {Object.values(AttributeType).map((type) => (
-                <SelectItem
-                  key={type}
-                  value={type}
-                >
+                <SelectItem key={type}>
                   {type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()}
                 </SelectItem>
               ))}

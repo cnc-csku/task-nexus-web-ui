@@ -1,5 +1,7 @@
 import { ProjectStatus } from "@/enums/Project";
 import { z } from "zod";
+import { PaginationResponse } from "./Common";
+import { SortOrder } from "@/enums/Common";
 
 export interface Project {
     id: string;
@@ -33,6 +35,32 @@ export interface Workflow {
 export interface AttributeTemplate {
     name: string;
     type: string;
+}
+
+export interface ProjectMember {
+    projectId: string;
+    userId: string;
+    email: string;
+    fullName: string;
+    displayName: string;
+    profileUrl: string;
+    role: string;
+    position: string;
+    joinedAt: string;
+    removedAt?: string;
+}
+
+export interface ListProjectMembersResponse {
+    members: ProjectMember[];
+    paginationResponse: PaginationResponse;
+}
+
+export interface ListProjectMembersParams {
+    keyword?: string;
+    page: number;
+    pageSize: number;
+    sortBy: string;
+    order: SortOrder;
 }
 
 export const CreateProjectSchema = z.object({
@@ -72,3 +100,4 @@ export const UpdateProjectAttributesTemplatesSchema = z.object({
 });
 
 export type UpdateProjectAttributesTemplatesType = z.infer<typeof UpdateProjectAttributesTemplatesSchema>;
+

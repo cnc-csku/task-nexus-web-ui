@@ -60,7 +60,7 @@ export default function SideBar({ isOpen }: SideBarProps) {
           <div>
             <SideBarItem
               name="Project Setting"
-              href="/customers"
+              href="/settings"
               startIcon={<MdSettings className="text-lg" />}
             />
           </div>
