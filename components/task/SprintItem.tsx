@@ -6,9 +6,9 @@ import { Sprint } from "@/interfaces/Sprint";
 import SprintActions from "./SprintActions";
 import useTasksByFilter from "@/hooks/api/task/useTasksByFilter";
 import TaskListItem from "./TaskListItem";
-import LoadingScreen from "../ui/LoadingScreen";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Button } from "@heroui/button";
+import { Spinner } from "@heroui/spinner";
 
 export interface SprintsListProps {
   project: Project;
@@ -20,6 +20,7 @@ export interface SprintsListProps {
   search: string;
   allEpics: Task[];
   onOpenSideTaskDetail: (taskId: string) => void;
+  onOpenCreateTaskModal: (defaultSprintId: string | null, defaultParentId: string | null) => void;
 }
 
 export default function SprintItem({
@@ -32,6 +33,7 @@ export default function SprintItem({
   search,
   allEpics,
   onOpenSideTaskDetail,
+  onOpenCreateTaskModal,
 }: SprintsListProps) {
   const {
     data: tasks,
@@ -43,12 +45,8 @@ export default function SprintItem({
     searchKeyword: search,
     statuses: selectedStatuses,
     epicTaskId: selectedEpic ?? undefined,
-    sprintId: sprint.id,
+    sprintIds: [sprint.id],
   });
-
-  if (isTaskPending) {
-    return <LoadingScreen />;
-  }
 
   if (taskError) {
     return <div>Error: {taskError.message}</div>;
@@ -56,26 +54,35 @@ export default function SprintItem({
 
   return (
     <div className="space-y-4">
-      <SprintActions />
       <div className="grid gap-2">
-        {tasks.map((task) => (
-          <TaskListItem
-            key={task.id}
-            projectId={project.id}
-            workflows={project.workflows}
-            task={task}
-            onOpenSideTaskDetail={onOpenSideTaskDetail}
-            allEpics={allEpics}
-          />
-        ))}
-        <Button
-          className="w-full justify-start"
-          color="primary"
-          variant="light"
-          startContent={<AiOutlinePlus className="text-lg" />}
-        >
-          Create Task
-        </Button>
+        {isTaskPending ? (
+          <Spinner />
+        ) : (
+          <>
+            <div className="mb-2">
+              <SprintActions sprint={sprint} />
+            </div>
+            {tasks.map((task) => (
+              <TaskListItem
+                key={task.id}
+                projectId={project.id}
+                workflows={project.workflows}
+                task={task}
+                onOpenSideTaskDetail={onOpenSideTaskDetail}
+                allEpics={allEpics}
+              />
+            ))}
+            <Button
+              className="w-full justify-start"
+              color="primary"
+              variant="light"
+              startContent={<AiOutlinePlus className="text-lg" />}
+              onPress={() => onOpenCreateTaskModal(sprint.id, null)}
+            >
+              Create Task
+            </Button>
+          </>
+        )}
       </div>
     </div>
   );

@@ -32,8 +32,11 @@ export interface TaskApproval {
 }
 
 export interface TaskAssignee {
-    position: string;
-    userId: string;
+    position: string | null;
+    userId: string | null;
+    email: string | null;
+    displayName: string | null;
+    profileUrl: string | null;
     point?: number;
 }
 
@@ -43,11 +46,12 @@ export interface TaskSprint {
 }
 
 export interface ListTasksFilter {
-    sprintId?: string;
+    sprintIds?: string[];
     epicTaskId?: string;
     userIds: string[] | null;
     positions: string[] | null;
     statuses: string[] | null;
+    isTaskInBacklog?: boolean;
     searchKeyword: string;
 }
 
@@ -65,14 +69,22 @@ export const QuickCreateEpicSchema = z.object({
 
 export type QuickCreateEpicType = z.infer<typeof QuickCreateEpicSchema>;
 
-
 export const CreateTaskRequestSchema = z.object({
-    projectId: z.string().nonempty(),
     title: z.string().nonempty(),
     description: z.string().nullable(),
     parentId: z.string().nullable(),
     type: z.string().nonempty(),
     sprintId: z.string().nullable(),
+    startDate: z.date().nullable(),
+    dueDate: z.date().nullable(),
+    priority: z.string().nullable(),
+    assignees: z.array(z.object({
+        position: z.string().nonempty(),
+        userId: z.string().nullable(),
+        point: z.number().min(0).max(100).nullable(),
+    })),
+    additionalFields: z.record(z.any()).nullable(),
+    approvalUserIds: z.array(z.string()).nullable(),
 })
 
 export type CreateTaskRequestType = z.infer<typeof CreateTaskRequestSchema>;
@@ -94,3 +106,14 @@ export const UpdateTaskParentFormSchema = z.object({
 })
 
 export type UpdateTaskParentFormType = z.infer<typeof UpdateTaskParentFormSchema>;
+
+export const UpdateTaskSprintFormSchema = z.object({
+    taskRef: z.string().nonempty(),
+    currentSprintId: z.string().nullable(),
+})
+
+export type UpdateTaskSprintFormType = z.infer<typeof UpdateTaskSprintFormSchema>;
+
+export interface UpdateTaskSprintRequest {
+    currentSprintId: string | null;
+}

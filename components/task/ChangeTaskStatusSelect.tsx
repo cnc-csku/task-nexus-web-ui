@@ -8,6 +8,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { SharedSelection } from "@heroui/system";
 import { useState } from "react";
 import { toast } from "sonner";
+import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from "react-icons/md";
 
 export interface ChageTaskStatusSelectProps {
   projectId: string;
@@ -52,20 +53,35 @@ export default function ChageTaskStatusSelect({
   return (
     <Select
       aria-label="task-status"
-      size="sm"
+      className="w-full"
       isOpen={isOpen}
+      size="sm"
       onClick={() => setIsOpen(!isOpen)}
       defaultSelectedKeys={[currentStatus]}
       disallowEmptySelection
       isLoading={isPending}
       onSelectionChange={handleOnChange}
       disabledKeys={[currentStatus]}
+      listboxProps={{
+        itemClasses: {
+          base: [
+            "rounded-md",
+            "min-w-[200px]",
+          ],
+        },
+      }}
+      popoverProps={{
+        classNames: {
+          content: "p-1 min-w-[250px]",
+        },
+      }}
     >
       <>
         {previousStatuses.map((status) => (
           <SelectItem
             key={status}
             textValue={status}
+            startContent={<MdOutlineArrowBackIos size={"10"} />}
           >
             {status}
           </SelectItem>
@@ -80,6 +96,7 @@ export default function ChageTaskStatusSelect({
           <SelectItem
             key={status}
             textValue={status}
+            startContent={<MdOutlineArrowForwardIos size={"10"} />}
           >
             {status}
           </SelectItem>

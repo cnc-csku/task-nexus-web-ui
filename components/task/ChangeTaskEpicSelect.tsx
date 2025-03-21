@@ -38,9 +38,11 @@ export default function ChangeTaskEpicSelect({
       toast.error(getApiErrorMessage(error));
     }
   };
+
   return (
     <Select
       aria-label="epic-select"
+      className="w-full"
       size="sm"
       color="secondary"
       placeholder="No Epic"
@@ -50,6 +52,16 @@ export default function ChangeTaskEpicSelect({
       onSelectionChange={handleOnChange}
       isLoading={isPending}
       disallowEmptySelection
+      listboxProps={{
+        itemClasses: {
+          base: ["rounded-md", "min-w-[200px]"],
+        },
+      }}
+      popoverProps={{
+        classNames: {
+          content: "p-1 min-w-[250px]",
+        },
+      }}
     >
       <>
         <SelectItem key="NO_EPIC">No Epic</SelectItem>

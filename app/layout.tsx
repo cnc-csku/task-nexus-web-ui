@@ -8,6 +8,8 @@ import { getServerSession } from "next-auth";
 import { Toaster } from "sonner";
 import { authOptions } from "@/lib/next-auth/auth";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/mantine/style.css";
 
 const notoSansThai = Noto_Sans_Thai({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],

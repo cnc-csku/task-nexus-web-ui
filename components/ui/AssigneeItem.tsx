@@ -2,7 +2,7 @@ import { Avatar } from "@heroui/avatar";
 
 export interface AssigneeItemProps {
   name: string;
-  position: string;
+  position?: string;
   profileUrl: string;
 }
 
@@ -12,11 +12,11 @@ export default function AssigneeItem({ name, position, profileUrl }: AssigneeIte
       <Avatar
         size="sm"
         src={profileUrl}
-        className="w-12"
+        className="w-8 h-8 my-auto"
       />
       <div className="my-auto">
         <p className="text-sm">{name}</p>
-        <p className="text-xs text-gray-500">{position}</p>
+        {position && <p className="text-xs text-gray-500">{position}</p>}
       </div>
     </div>
   );

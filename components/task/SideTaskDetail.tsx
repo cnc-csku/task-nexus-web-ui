@@ -1,10 +1,11 @@
 import useTaskById from "@/hooks/api/task/useTaskDetailById";
-import { Card, CardHeader } from "@heroui/card";
+import { Card, CardBody, CardHeader } from "@heroui/card";
 import { useEffect } from "react";
 import LoadingScreen from "../ui/LoadingScreen";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@heroui/button";
 import { Task } from "@/interfaces/Task";
+import { Chip } from "@heroui/chip";
 
 export interface SideTaskDetailProps {
   projectId: string;
@@ -49,9 +50,12 @@ export default function SideTaskDetail({
 
   return (
     <Card className={`w-full ${!isOpen && "hidden"} shadow-none border h-[calc(100vh-10rem)]`}>
-      <CardHeader>
+      <CardBody>
         <div className="flex justify-between items-center w-full">
-          <div className="font-bold">{task.title}</div>
+          <div className="flex items-center gap-2">
+            <Chip color="primary">{task.type}</Chip>
+            <div className="font-bold mr-2">{taskRef}</div>
+          </div>
           <Button
             onPress={onClose}
             isIconOnly
@@ -62,7 +66,11 @@ export default function SideTaskDetail({
             <IoMdClose size="15" />
           </Button>
         </div>
-      </CardHeader>
+        <div className="flex flex-col gap-2 mt-1">
+          <div className="w-full font-semibold">{task.title}</div>
+          <div className="text-gray-500">Description</div>
+        </div>
+      </CardBody>
     </Card>
   );
 }

@@ -17,6 +17,8 @@ import { getApiErrorMessage } from "@/utils/errutils";
 import ChangeTaskStatusSelect from "./ChangeTaskStatusSelect";
 import { Workflow } from "@/interfaces/Project";
 import ChangeTaskEpicSelect from "./ChangeTaskEpicSelect";
+import { useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 
 export interface TaskListItemProps {
   projectId: string;
@@ -59,13 +61,13 @@ export default function TaskListItem({
       return;
     }
 
-    const pending = task.approvals.filter((approval) => !approval.isApproved).length;
-    const allApproved = task.approvals.filter((approval) => approval.isApproved).length;
+    const approvedCount = task.approvals.filter((approval) => approval.isApproved).length;
+    const allAprovalRequired = task.approvals.length;
 
     setApprovalSummary({
-      pending,
-      allApproved,
-      status: pending === 0 ? "SUCCESS" : "PENDING",
+      pending: approvedCount,
+      allApproved: allAprovalRequired,
+      status: approvedCount === allAprovalRequired ? "SUCCESS" : "PENDING",
     });
   }, [task.approvals]);
 
@@ -73,6 +75,13 @@ export default function TaskListItem({
     projectId,
     task.taskRef
   );
+
+  const { attributes, listeners, setNodeRef, transform, setActivatorNodeRef } = useDraggable({
+    id: task.taskRef,
+    data: {
+      currentSprint: task.sprint ? task.sprint.currentSprintId : "BACKLOG",
+    },
+  });
 
   const handleOnClickTask = () => {
     onOpenSideTaskDetail(task.taskRef);
@@ -114,104 +123,128 @@ export default function TaskListItem({
     }
   };
 
+  const style = {
+    transform: CSS.Translate.toString(transform),
+  };
+
   return (
     <div
-      className="grid grid-cols-5 gap-1 hover:bg-gray-100 px-2 py-1 rounded-lg over"
+      className="hover:bg-gray-100 px-2 py-1 rounded-lg over hover:cursor-pointer items-center"
       onClick={handleOnClickTask}
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
     >
       <div
-        className="col-span-3 flex items-center"
+        className="col-span-3 flex items-center justify-between w-full"
         onMouseOver={handleHoverTask}
         onMouseLeave={handleLeaveTask}
       >
-        <Chip color="primary">{task.type}</Chip>
-        <Tooltip
-          content="Click to copy task ID"
-          placement="top"
-        >
-          <div
-            className="text-sm font-semibold ml-2 hover:bg-gray-200 p-1 rounded-lg cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleCopyTaskRef();
-            }}
+        <div className="flex items-center">
+          <Chip color="primary">{task.type}</Chip>
+          <Tooltip
+            content="Click to copy task ID"
+            placement="top"
           >
-            {task.taskRef}
-          </div>
-        </Tooltip>
-        <div className="flex items-center gap-1 ml-1">
-          {isEditing ? (
-            <UpdateTaskTitleInlineForm
-              title={task.title}
-              onSubmit={handleSubmitEditTaskTitle}
-              onCancel={handleCancelEditTaskTitle}
-              isLoading={isUpdateTitlePending}
-            />
-          ) : (
-            <>
-              <div>{task.title}</div>
-              <Button
-                color="primary"
-                size="sm"
-                className={`scale-90 ${!isShowEditButton && "hidden"}`}
-                variant="light"
-                isIconOnly
-                onPress={handleEditTask}
-              >
-                <MdEdit className="text-sm" />
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-2 col-span-2 items-center">
-        <ChangeTaskEpicSelect
-          currentEpic={task.parentId}
-          projectId={projectId}
-          taskRef={task.taskRef}
-          allEpics={allEpics}
-        />
-        <ChangeTaskStatusSelect
-          workflows={workflows}
-          currentStatus={task.status}
-          projectId={projectId}
-          taskRef={task.taskRef}
-          epics={allEpics}
-        />
-        <div className="grid grid-cols-2 gap-2">
-          <div className="flex gap-2">
-            <Badge
-              color="primary"
-              content="2"
-              placement="bottom-right"
-              size="sm"
-              className="w-1 h-1"
+            <div
+              className="text-sm font-semibold ml-2 hover:bg-gray-200 p-1 rounded-lg cursor-pointer"
+              ref={setActivatorNodeRef}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCopyTaskRef();
+              }}
             >
-              <Avatar
-                src="https://i.pravatar.cc/150?img=1"
-                size="sm"
+              {task.taskRef}
+            </div>
+          </Tooltip>
+          <div className="flex items-center">
+            {isEditing ? (
+              <UpdateTaskTitleInlineForm
+                title={task.title}
+                onSubmit={handleSubmitEditTaskTitle}
+                onCancel={handleCancelEditTaskTitle}
+                isLoading={isUpdateTitlePending}
               />
-            </Badge>
-            <Badge
-              color="primary"
-              content="3"
-              placement="bottom-right"
-              size="sm"
-            >
-              <Avatar
-                src="https://i.pravatar.cc/150?img=1"
-                size="sm"
-              />
-            </Badge>
-          </div>
-          <div className="flex gap-1 items-center justify-center">
-            {approvalSummary.status === "SUCCESS" ? (
-              <IoMdCheckmark className="text-green-600 text-sm" />
             ) : (
-              <FaCircle className="text-orange-300 text-[9px]" />
+              <>
+                <>{task.title}</>
+                <Button
+                  color="primary"
+                  size="sm"
+                  className={`scale-90 ${!isShowEditButton && "hidden"}`}
+                  variant="light"
+                  isIconOnly
+                  onPress={handleEditTask}
+                >
+                  <MdEdit className="text-sm" />
+                </Button>
+              </>
             )}
-            <div className="text-gray-500 text-sm">
-              ({approvalSummary.pending}/{approvalSummary.allApproved})
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="flex gap-2 mr-1">
+            {task.assignees
+              .filter(
+                (assignee) =>
+                  assignee.point !== null && assignee.userId !== "" && assignee.userId !== undefined
+              )
+              .sort((a, b) => (a.userId == null ? -1 : b.userId == null ? 1 : 0))
+              .map((assignee, index) => (
+                <Badge
+                  key={index}
+                  color="primary"
+                  content={assignee.point}
+                  placement="bottom-right"
+                  size="sm"
+                >
+                  <Tooltip
+                    key={assignee.userId}
+                    showArrow={true}
+                    content={
+                      <div>
+                        <div className="text-center font-semibold">{assignee.position}</div>
+                        <div>{assignee.displayName || "Unassigned"}</div>
+                      </div>
+                    }
+                  >
+                    <Avatar
+                      src={assignee.profileUrl || ""}
+                      size="sm"
+                    />
+                  </Tooltip>
+                </Badge>
+              ))}
+          </div>
+          <div className="w-36">
+            <ChangeTaskEpicSelect
+              currentEpic={task.parentId}
+              projectId={projectId}
+              taskRef={task.taskRef}
+              allEpics={allEpics}
+            />
+          </div>
+
+          <div className="w-36">
+            <ChangeTaskStatusSelect
+              workflows={workflows}
+              currentStatus={task.status}
+              projectId={projectId}
+              taskRef={task.taskRef}
+              epics={allEpics}
+            />
+          </div>
+          <div className="flex w-16 justify-end">
+            <div className="flex gap-1 items-center justify-end">
+              {approvalSummary.status === "SUCCESS" ? (
+                <IoMdCheckmark className="text-green-600 text-sm" />
+              ) : (
+                <FaCircle className="text-orange-300 text-[9px] mr-[6px]" />
+              )}
+              <div className="text-gray-500 text-sm">
+                ({approvalSummary.pending}/{approvalSummary.allApproved})
+              </div>
             </div>
           </div>
         </div>

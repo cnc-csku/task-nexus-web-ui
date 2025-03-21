@@ -8,6 +8,7 @@ import { Project } from "@/interfaces/Project";
 import { Task } from "@/interfaces/Task";
 import { Button } from "@heroui/button";
 import { AiOutlinePlus } from "react-icons/ai";
+import { useDroppable } from "@dnd-kit/core";
 
 export interface BackLogTasksListProps {
   project: Project;
@@ -17,7 +18,10 @@ export interface BackLogTasksListProps {
   selectedStatuses: string[];
   search: string;
   allEpics: Task[];
+  isShowDropArea: boolean;
+  hoverOverId: string;
   onOpenSideTaskDetail: (taskId: string) => void;
+  onOpenCreateTaskModal: (defaultSprintId: string | null, defaultParentId: string | null) => void;
 }
 
 export default function BackLogTasksList({
@@ -28,7 +32,10 @@ export default function BackLogTasksList({
   selectedStatuses,
   search,
   allEpics,
+  isShowDropArea,
+  hoverOverId,
   onOpenSideTaskDetail,
+  onOpenCreateTaskModal,
 }: BackLogTasksListProps) {
   const {
     data: tasks,
@@ -40,7 +47,11 @@ export default function BackLogTasksList({
     searchKeyword: search,
     statuses: selectedStatuses,
     epicTaskId: selectedEpic ?? undefined,
-    sprintId: "BACKLOG",
+    isTaskInBacklog: true,
+  });
+
+  const { setNodeRef } = useDroppable({
+    id: "BACKLOG",
   });
 
   if (isTaskPending) {
@@ -58,11 +69,14 @@ export default function BackLogTasksList({
         variant="splitted"
         className="mt-3"
         defaultExpandedKeys={["backlog"]}
+        ref={setNodeRef}
       >
         <AccordionItem
           key="backlog"
           aria-label="backlog"
-          className="shadow-none border"
+          className={`shadow-none border ${isShowDropArea ? "border-dashed border-gray-300" : ""} ${
+            hoverOverId === "BACKLOG" ? "border-black" : ""
+          }`}
           title={
             <div className="flex justify-between items-center">
               <div>Backlog</div>
@@ -85,6 +99,7 @@ export default function BackLogTasksList({
               color="primary"
               variant="light"
               startContent={<AiOutlinePlus className="text-lg" />}
+              onPress={() => onOpenCreateTaskModal(null, null)}
             >
               Create Task
             </Button>

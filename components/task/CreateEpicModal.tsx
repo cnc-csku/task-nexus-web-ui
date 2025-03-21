@@ -23,10 +23,12 @@ export default function CreateEpicModal({
     await mutateAsync({
       title: data.title,
       type: TaskType.Epic,
-      description: null,
+      description: JSON.stringify([]),
       parentId: null,
-      projectId: projectId,
       sprintId: null,
+      startDate: data.startDate,
+      dueDate: data.dueDate,
+      priority: null,
     });
     onOpenChange(false);
   };
@@ -41,7 +43,10 @@ export default function CreateEpicModal({
           <>
             <ModalHeader>Create an Epic</ModalHeader>
             <ModalBody>
-              <QuickCreateEpicForm submitFn={onCreateEpic} isLoading={isPending}/>
+              <QuickCreateEpicForm
+                submitFn={onCreateEpic}
+                isLoading={isPending}
+              />
             </ModalBody>
           </>
         )}

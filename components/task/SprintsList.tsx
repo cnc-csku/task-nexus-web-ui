@@ -12,6 +12,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import useCreateSprint from "@/hooks/api/sprint/useCreateSprint";
 import { toast } from "sonner";
 import { getApiErrorMessage } from "@/utils/errutils";
+import SprintTaskList from "./SprintTaskList";
 
 export interface SprintsListProps {
   project: Project;
@@ -21,7 +22,10 @@ export interface SprintsListProps {
   selectedStatuses: string[];
   search: string;
   allEpics: Task[];
+  isShowDropArea: boolean;
+  hoverOverId: string;
   onOpenSideTaskDetail: (taskId: string) => void;
+  onOpenCreateTaskModal: (defaultSprintId: string | null, defaultParentId: string | null) => void;
 }
 
 export default function SprintsList({
@@ -32,7 +36,10 @@ export default function SprintsList({
   selectedStatuses,
   search,
   allEpics,
+  isShowDropArea,
+  hoverOverId,
   onOpenSideTaskDetail,
+  onOpenCreateTaskModal,
 }: SprintsListProps) {
   const {
     data: sprints,
@@ -63,31 +70,24 @@ export default function SprintsList({
 
   return (
     <div className="space-y-3">
-      <Accordion
-        selectionMode="multiple"
-        variant="splitted"
-      >
-        {sprints.map((sprint) => (
-          <AccordionItem
-            key={sprint.id}
-            aria-label={sprint.title}
-            className="shadow-none border"
-            title={<SprintHeader sprint={sprint} />}
-          >
-            <SprintItem
-              project={project}
-              sprint={sprint}
-              selectedEpic={selectedEpic}
-              selectedAssignees={selectedAssignees}
-              selectedPositions={selectedPositions}
-              selectedStatuses={selectedStatuses}
-              search={search}
-              allEpics={allEpics}
-              onOpenSideTaskDetail={onOpenSideTaskDetail}
-            />
-          </AccordionItem>
-        ))}
-      </Accordion>
+      {sprints.map((sprint) => (
+        <SprintTaskList
+          key={sprint.id}
+          project={project}
+          sprint={sprint}
+          selectedEpic={selectedEpic}
+          selectedAssignees={selectedAssignees}
+          selectedPositions={selectedPositions}
+          selectedStatuses={selectedStatuses}
+          search={search}
+          allEpics={allEpics}
+          isShowDropArea={isShowDropArea}
+          hoverOverId={hoverOverId}
+          onOpenSideTaskDetail={onOpenSideTaskDetail}
+          onOpenCreateTaskModal={onOpenCreateTaskModal}
+        />
+      ))}
+
       <div className="w-full px-2">
         <Button
           className="w-full justify-start"
