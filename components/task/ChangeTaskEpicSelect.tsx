@@ -29,7 +29,7 @@ export default function ChangeTaskEpicSelect({
       if (!key.anchorKey) {
         return;
       }
-      await mutateAsync({ parentId: key.anchorKey });
+      await mutateAsync({ parentId: key.anchorKey === "NO_EPIC" ? null : key.anchorKey });
 
       setIsOpen(false);
 

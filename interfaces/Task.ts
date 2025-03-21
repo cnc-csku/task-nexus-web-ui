@@ -102,7 +102,7 @@ export const UpdateTaskStatusFormSchema = z.object({
 export type UpdateTaskStatusFormType = z.infer<typeof UpdateTaskStatusFormSchema>;
 
 export const UpdateTaskParentFormSchema = z.object({
-    parentId: z.string(),
+    parentId: z.string().nullable(),
 })
 
 export type UpdateTaskParentFormType = z.infer<typeof UpdateTaskParentFormSchema>;
