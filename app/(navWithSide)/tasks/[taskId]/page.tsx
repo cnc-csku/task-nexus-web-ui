@@ -75,11 +75,12 @@ export default function TaskDetailPage() {
         <Card className="shadow-none border-1 border-gray-300">
           <CardHeader>Description</CardHeader>
           <CardBody>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices
-                eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate
-                semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis neque.
-              </p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus
+              ultrices eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus.
+              Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis
+              neque.
+            </p>
           </CardBody>
         </Card>
         <Card className="shadow-none border-1 border-gray-300">
@@ -90,9 +91,7 @@ export default function TaskDetailPage() {
                 src="https://avatars.githubusercontent.com/u/86820985?v=4"
                 size="sm"
               />
-              <Input
-                placeholder="Write a comment..."
-              />
+              <Input placeholder="Write a comment..." />
             </div>
           </CardBody>
         </Card>

@@ -1,4 +1,4 @@
 export interface SetupStatus {
-    isSetupOwner: boolean;
-    isSetupWorkspace: boolean;
+  isSetupOwner: boolean;
+  isSetupWorkspace: boolean;
 }

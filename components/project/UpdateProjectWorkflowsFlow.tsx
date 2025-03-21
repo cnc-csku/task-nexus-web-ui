@@ -1,7 +1,15 @@
 "use client";
 
 import { Button } from "@heroui/button";
-import { ReactFlow, useNodesState, useEdgesState, MarkerType, Controls, Background, addEdge } from "@xyflow/react";
+import {
+  ReactFlow,
+  useNodesState,
+  useEdgesState,
+  MarkerType,
+  Controls,
+  Background,
+  addEdge,
+} from "@xyflow/react";
 
 import type { Node, Edge, NodeTypes, OnConnect, EdgeTypes, OnBeforeDelete } from "@xyflow/react";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -34,7 +42,12 @@ export interface UpdateProjectWorkflowsFlowProps {
   isLoading: boolean;
 }
 
-export default function UpdateProjectWorkflowsFlow({ projectId, workflows, submitFn, isLoading }: UpdateProjectWorkflowsFlowProps) {
+export default function UpdateProjectWorkflowsFlow({
+  projectId,
+  workflows,
+  submitFn,
+  isLoading,
+}: UpdateProjectWorkflowsFlowProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
@@ -182,7 +195,11 @@ export default function UpdateProjectWorkflowsFlow({ projectId, workflows, submi
         id,
         position: { x, y },
         data: { label: workflow.status },
-        type: workflow.isDefault ? "editableStartNode" : workflow.isDone ? "editableEndNode" : "editableNode",
+        type: workflow.isDefault
+          ? "editableStartNode"
+          : workflow.isDone
+            ? "editableEndNode"
+            : "editableNode",
       };
     });
 
@@ -220,7 +237,9 @@ export default function UpdateProjectWorkflowsFlow({ projectId, workflows, submi
   };
 
   const isHasNodeWithNoEdges = (nodes: Node[], edges: Edge[]): boolean => {
-    return nodes.some((node) => !edges.some((edge) => edge.target === node.id || edge.source === node.id));
+    return nodes.some(
+      (node) => !edges.some((edge) => edge.target === node.id || edge.source === node.id)
+    );
   };
 
   const onSubmit = () => {
@@ -251,7 +270,7 @@ export default function UpdateProjectWorkflowsFlow({ projectId, workflows, submi
 
     if (hasProtectedNode) {
       toast.warning("Cannot delete Default or Done state");
-      return false; 
+      return false;
     }
 
     // Filter out the nodes that should be deleted
@@ -259,7 +278,9 @@ export default function UpdateProjectWorkflowsFlow({ projectId, workflows, submi
 
     // Remove edges connected to deleted nodes
     const nodeIdsToDelete = new Set(nodes.map((node) => node.id));
-    const updatedEdges = edges.filter((edge) => !nodeIdsToDelete.has(edge.source) && !nodeIdsToDelete.has(edge.target));
+    const updatedEdges = edges.filter(
+      (edge) => !nodeIdsToDelete.has(edge.source) && !nodeIdsToDelete.has(edge.target)
+    );
 
     return { nodes: updatedNodes, edges: updatedEdges };
   };

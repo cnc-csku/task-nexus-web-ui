@@ -5,24 +5,26 @@ import { accessTokenHeader } from "@/utils/apiUtils";
 import { sprintQueryKeys } from "./sprintQueryKeys";
 import { Sprint } from "@/interfaces/Sprint";
 
-
 const fetchSprintsByProjectId = async (token: string, projectId: string) => {
-    const response = await axios.get<Sprint[]>(`/projects/v1/${projectId}/sprints`, accessTokenHeader(token));
+  const response = await axios.get<Sprint[]>(
+    `/projects/v1/${projectId}/sprints`,
+    accessTokenHeader(token)
+  );
 
-    return response.data;
-}
+  return response.data;
+};
 
 const useSprintsByProjectId = (projectId: string) => {
-    const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
-    const isAuthenticated = status === 'authenticated';
-    const token = session?.user?.token;
+  const isAuthenticated = status === "authenticated";
+  const token = session?.user?.token;
 
-    return useQuery({
-        queryKey: sprintQueryKeys.byProjectId(projectId),
-        queryFn: () => fetchSprintsByProjectId(token!, projectId),
-        enabled: isAuthenticated,
-    });
-}
+  return useQuery({
+    queryKey: sprintQueryKeys.byProjectId(projectId),
+    queryFn: () => fetchSprintsByProjectId(token!, projectId),
+    enabled: isAuthenticated,
+  });
+};
 
-export default useSprintsByProjectId
+export default useSprintsByProjectId;

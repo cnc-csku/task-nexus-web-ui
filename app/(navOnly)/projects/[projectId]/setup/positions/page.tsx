@@ -17,7 +17,9 @@ export default function SetupProjectPositions() {
 
   const { data: project, isPending, error } = useFindProjectById(projectId);
 
-  const { mutateAsync, isPending: isUpdatePending } = useUpdateProjectPositions({ projectId: projectId });
+  const { mutateAsync, isPending: isUpdatePending } = useUpdateProjectPositions({
+    projectId: projectId,
+  });
 
   if (isPending) {
     return <LoadingScreen />;

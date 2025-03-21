@@ -12,7 +12,11 @@ export interface CreateProjectFormProps {
   submitFn: (data: CreateProjectType) => void;
 }
 
-export default function CreateProjectForm({ workspaceId, isLoading, submitFn }: CreateProjectFormProps) {
+export default function CreateProjectForm({
+  workspaceId,
+  isLoading,
+  submitFn,
+}: CreateProjectFormProps) {
   const {
     register,
     handleSubmit,

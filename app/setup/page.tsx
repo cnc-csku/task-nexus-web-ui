@@ -26,7 +26,8 @@ export default function SetupHomePage() {
           href="/setup/register"
           className="mt-10 text-2xl lets-start-btn"
         >
-          Let's start <BsArrowRightCircle className="transition-all inline-block text-3xl ml-2 lets-start-icon" />
+          Let's start{" "}
+          <BsArrowRightCircle className="transition-all inline-block text-3xl ml-2 lets-start-icon" />
         </Link>
       </motion.div>
     </div>

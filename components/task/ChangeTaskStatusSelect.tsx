@@ -64,10 +64,7 @@ export default function ChageTaskStatusSelect({
       disabledKeys={[currentStatus]}
       listboxProps={{
         itemClasses: {
-          base: [
-            "rounded-md",
-            "min-w-[200px]",
-          ],
+          base: ["rounded-md", "min-w-[200px]"],
         },
       }}
       popoverProps={{

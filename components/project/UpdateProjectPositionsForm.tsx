@@ -17,7 +17,12 @@ export interface UpdateProjectPositionsFormProps {
   submitFn: (data: UpdateProjectPositionsType) => void;
 }
 
-export default function UpdateProjectPositionsForm({ projectId, isLoading, currentPositions, submitFn }: UpdateProjectPositionsFormProps) {
+export default function UpdateProjectPositionsForm({
+  projectId,
+  isLoading,
+  currentPositions,
+  submitFn,
+}: UpdateProjectPositionsFormProps) {
   const {
     register,
     handleSubmit,

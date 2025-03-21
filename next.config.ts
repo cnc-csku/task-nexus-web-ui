@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         destination: "/workspaces",
         permanent: true,
       },
-    ]
+    ];
   },
   images: {
     remotePatterns: [
