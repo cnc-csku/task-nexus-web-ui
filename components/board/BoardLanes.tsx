@@ -13,6 +13,7 @@ import Lane from "./Lane";
 import { useState } from "react";
 import { Project, Workflow } from "@/interfaces/Project";
 import useUpdateTaskStatus from "@/hooks/api/task/useUpdateTaskStatus";
+import { toast } from "sonner";
 
 export interface BoardLanesProps {
   project: Project;
@@ -77,19 +78,19 @@ export default function BoardLanes({
       return;
     }
 
-    if (draggingTaskStatus === event.over.id) {
-      return;
+    if (draggingTaskStatus !== event.over.id) {
+      const targetStatus = event.over.id as string;
+
+      if (!availableStatuses.includes(targetStatus)) {
+        return;
+      }
+
+      await updateTaskStatus({
+        status: targetStatus,
+      });
+
+      toast.success("Task status updated successfully");
     }
-
-    const targetStatus = event.over.id as string;
-
-    if (!availableStatuses.includes(targetStatus)) {
-      return;
-    }
-
-    await updateTaskStatus({
-      status: targetStatus,
-    });
 
     setDraggingTaskRef(null);
     setDraggingTaskStatus(null);
