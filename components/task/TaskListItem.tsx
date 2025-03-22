@@ -4,7 +4,6 @@ import { TaskApprovalSummary, Task, UpdateTaskTitleFormType } from "@/interfaces
 import { Avatar } from "@heroui/avatar";
 import { Badge } from "@heroui/badge";
 import { Button } from "@heroui/button";
-import { Chip } from "@heroui/chip";
 import { Tooltip } from "@heroui/tooltip";
 import { useEffect, useState } from "react";
 import { FaCircle } from "react-icons/fa";
@@ -19,6 +18,7 @@ import { Workflow } from "@/interfaces/Project";
 import ChangeTaskEpicSelect from "./ChangeTaskEpicSelect";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
+import TaskBadge from "./TaskBadge";
 
 export interface TaskListItemProps {
   projectId: string;
@@ -142,7 +142,7 @@ export default function TaskListItem({
         onMouseLeave={handleLeaveTask}
       >
         <div className="flex items-center">
-          <Chip color="primary">{task.type}</Chip>
+          <TaskBadge taskType={task.type} size="md"/>
           <Tooltip
             content="Click to copy task ID"
             placement="top"

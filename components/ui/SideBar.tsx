@@ -1,7 +1,6 @@
 "use client";
 
 import { MdAnalytics, MdSettings, MdTimeline, MdDashboard } from "react-icons/md";
-import { GrPowerCycle } from "react-icons/gr";
 import { GoTasklist } from "react-icons/go";
 import SideBarItem from "./SideBarItem";
 import { Button } from "@heroui/button";
@@ -39,11 +38,6 @@ export default function SideBar({ isOpen }: SideBarProps) {
                 name="Tasks"
                 href={`/projects/${projectId}/tasks`}
                 startIcon={<GoTasklist className="text-lg" />}
-              />
-              <SideBarItem
-                name="Sprint"
-                href={`/projects/${projectId}/sprints`}
-                startIcon={<GrPowerCycle className="text-lg" />}
               />
               <SideBarItem
                 name="Timeline"

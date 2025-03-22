@@ -8,14 +8,13 @@ import AssigneeItem from "@/components/ui/AssigneeItem";
 import { ProjectMember } from "@/interfaces/Project";
 import { Dispatch, Key, SetStateAction, useEffect, useState } from "react";
 import type { Selection } from "@heroui/table";
-import LoadingScreen from "@/components/ui/LoadingScreen";
 
 export interface TaskFilterProps {
   members: ProjectMember[];
   positions: string[];
   statuses: string[];
-  isShowEpics: boolean;
-  setShowIsEpics: Dispatch<SetStateAction<boolean>>;
+  isShowEpics?: boolean;
+  setShowIsEpics?: Dispatch<SetStateAction<boolean>>;
   selectedPositions: string[];
   setSelectedPositions: Dispatch<SetStateAction<Array<string>>>;
   selectedAssignees: string[];
@@ -103,15 +102,17 @@ export default function TaskFilter({
         />
       </div>
       <div className="flex gap-3 col-span-2 justify-end">
-        <Switch
-          size="sm"
-          className="w-full"
-          aria-label="Set show epics switch"
-          onValueChange={setShowIsEpics}
-          isSelected={isShowEpics}
-        >
-          Show Epics
-        </Switch>
+        {isShowEpics !== undefined && (
+          <Switch
+            size="sm"
+            className="w-full"
+            aria-label="Set show epics switch"
+            onValueChange={setShowIsEpics}
+            isSelected={isShowEpics}
+          >
+            Show Epics
+          </Switch>
+        )}
         <Select
           name="status"
           label="Filter Status"
