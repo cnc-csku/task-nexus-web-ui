@@ -5,6 +5,7 @@ import { Accordion, AccordionItem } from "@heroui/accordion";
 import SprintHeader from "./SprintHeader";
 import SprintItem from "./SprintItem";
 import { useDroppable } from "@dnd-kit/core";
+import { SprintStatus } from "@/enums/Sprint";
 
 export interface SprintTaskListProps {
   project: Project;
@@ -19,6 +20,9 @@ export interface SprintTaskListProps {
   hoverOverId: string;
   onOpenSideTaskDetail: (taskId: string) => void;
   onOpenCreateTaskModal: (defaultSprintId: string | null, defaultParentId: string | null) => void;
+  onOpenChangeUpdateSprintStatusModal: (sprint: Sprint, toStatus: SprintStatus) => void;
+  onOpenSprintGoalModal: (sprint: Sprint) => void;
+  onOpenChangeEditSprintModal: (sprint: Sprint) => void;
 }
 
 export default function SprintTaskList({
@@ -34,6 +38,9 @@ export default function SprintTaskList({
   hoverOverId,
   onOpenSideTaskDetail,
   onOpenCreateTaskModal,
+  onOpenChangeUpdateSprintStatusModal,
+  onOpenSprintGoalModal,
+  onOpenChangeEditSprintModal,
 }: SprintTaskListProps) {
   const { setNodeRef } = useDroppable({
     id: sprint.id,
@@ -62,8 +69,11 @@ export default function SprintTaskList({
           selectedStatuses={selectedStatuses}
           search={search}
           allEpics={allEpics}
+          onOpenChangeUpdateSprintStatusModal={onOpenChangeUpdateSprintStatusModal}
           onOpenSideTaskDetail={onOpenSideTaskDetail}
           onOpenCreateTaskModal={onOpenCreateTaskModal}
+          onOpenSprintGoalModal={onOpenSprintGoalModal}
+          onOpenChangeEditSprintModal={onOpenChangeEditSprintModal}
         />
       </AccordionItem>
     </Accordion>

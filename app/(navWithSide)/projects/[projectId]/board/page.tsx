@@ -63,10 +63,10 @@ export default function BoardPage() {
           </div>
         </div>
       </div>
-      <SprintGoalModal
+      {/* <SprintGoalModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
-      />
+      /> */}
     </div>
   );
 }

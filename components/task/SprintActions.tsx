@@ -5,53 +5,50 @@ import { Button } from "@heroui/button";
 import React from "react";
 import { IoMdCheckmark, IoMdFlag } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
-import ConfirmationModal from "../ui/ConfirmationModal";
-import { useDisclosure } from "@heroui/modal";
-import SprintGoalModal from "./SprintGoalModal";
+import { SprintStatus } from "@/enums/Sprint";
+import { IoMdPlay } from "react-icons/io";
 
 export interface SprintActionsProps {
   sprint: Sprint;
+  onOpenChangeUpdateSprintStatusModal: (sprint: Sprint, toStatus: SprintStatus) => void;
+  onOpenSprintGoalModal: (sprint: Sprint) => void;
+  onOpenChangeEditSprintModal: (sprint: Sprint) => void;
 }
 
-export default function SprintActions({ sprint }: SprintActionsProps) {
-  const {
-    isOpen: isUpdateSprintStatusOpen,
-    onOpenChange: onOpenChangeUpdateSprintStatus,
-    onOpen: onOpenUpdateSprintStatus,
-  } = useDisclosure();
-
-  const {
-    isOpen: isSprintGoalModalOpen,
-    onOpenChange: onOpenChangeSprintGoalModal,
-    onOpen: onOpenSprintGoalModal,
-  } = useDisclosure();
-
+export default function SprintActions({
+  sprint,
+  onOpenChangeUpdateSprintStatusModal,
+  onOpenSprintGoalModal,
+  onOpenChangeEditSprintModal,
+}: SprintActionsProps) {
   return (
     <>
-      <ConfirmationModal
-        confirmationMessage="Are you sure you want to complete this sprint?"
-        isOpen={isUpdateSprintStatusOpen}
-        onOpenChange={onOpenChangeUpdateSprintStatus}
-        onConfirm={() => {}}
-      />
-      <SprintGoalModal
-        isOpen={isSprintGoalModalOpen}
-        onOpenChange={onOpenChangeSprintGoalModal}
-      />
       <div className="flex justify-end gap-2">
-        <Button
-          size="sm"
-          color="primary"
-          startContent={<IoMdCheckmark />}
-          onPress={() => onOpenUpdateSprintStatus()}
-        >
-          Complete Sprint
-        </Button>
+        {sprint.status === SprintStatus.Created && (
+          <Button
+            size="sm"
+            color="primary"
+            startContent={<IoMdPlay />}
+            onPress={() => onOpenChangeUpdateSprintStatusModal(sprint, SprintStatus.InProgress)}
+          >
+            Start Sprint
+          </Button>
+        )}
+        {sprint.status === SprintStatus.InProgress && (
+          <Button
+            size="sm"
+            color="primary"
+            startContent={<IoMdCheckmark />}
+            onPress={() => onOpenChangeUpdateSprintStatusModal(sprint, SprintStatus.Completed)}
+          >
+            Complete Sprint
+          </Button>
+        )}
         <Button
           size="sm"
           color="primary"
           startContent={<IoMdFlag />}
-          onPress={() => onOpenSprintGoalModal()}
+          onPress={() => onOpenSprintGoalModal(sprint)}
         >
           Sprint Goal
         </Button>
@@ -59,6 +56,7 @@ export default function SprintActions({ sprint }: SprintActionsProps) {
           size="sm"
           color="primary"
           startContent={<MdEdit />}
+          onPress={() => onOpenChangeEditSprintModal(sprint)}
         >
           Edit Sprint
         </Button>

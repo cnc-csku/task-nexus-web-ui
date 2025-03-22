@@ -9,6 +9,7 @@ import TaskListItem from "./TaskListItem";
 import { AiOutlinePlus } from "react-icons/ai";
 import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/spinner";
+import { SprintStatus } from "@/enums/Sprint";
 
 export interface SprintsListProps {
   project: Project;
@@ -21,6 +22,9 @@ export interface SprintsListProps {
   allEpics: Task[];
   onOpenSideTaskDetail: (taskId: string) => void;
   onOpenCreateTaskModal: (defaultSprintId: string | null, defaultParentId: string | null) => void;
+  onOpenChangeUpdateSprintStatusModal: (sprint: Sprint, toStatus: SprintStatus) => void;
+  onOpenSprintGoalModal: (sprint: Sprint) => void;
+  onOpenChangeEditSprintModal: (sprint: Sprint) => void;
 }
 
 export default function SprintItem({
@@ -34,6 +38,9 @@ export default function SprintItem({
   allEpics,
   onOpenSideTaskDetail,
   onOpenCreateTaskModal,
+  onOpenChangeUpdateSprintStatusModal,
+  onOpenSprintGoalModal,
+  onOpenChangeEditSprintModal,
 }: SprintsListProps) {
   const {
     data: tasks,
@@ -60,7 +67,12 @@ export default function SprintItem({
         ) : (
           <>
             <div className="mb-2">
-              <SprintActions sprint={sprint} />
+              <SprintActions
+                sprint={sprint}
+                onOpenChangeUpdateSprintStatusModal={onOpenChangeUpdateSprintStatusModal}
+                onOpenSprintGoalModal={onOpenSprintGoalModal}
+                onOpenChangeEditSprintModal={onOpenChangeEditSprintModal}
+              />
             </div>
             {tasks.map((task) => (
               <TaskListItem

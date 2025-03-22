@@ -4,10 +4,10 @@ import { useSession } from "next-auth/react";
 import taskQueryKeys from "./taskQueryKeys";
 import { ListTasksFilter, Task } from "@/interfaces/Task";
 import { accessTokenHeader } from "@/utils/apiUtils";
-import { toQueryParams } from "@/converters/queryParamsConverter";
+import { convertListTasksFiltertoToQueryParams } from "@/converters/taskConverter";
 
 const fetchTasksByFilter = async (token: string, projectId: string, params: ListTasksFilter) => {
-  const queries = toQueryParams(params);
+  const queries = convertListTasksFiltertoToQueryParams(params);
 
   const response = await axios.get<Task[]>(
     `/projects/v1/${projectId}/tasks/v1?${queries}`,
