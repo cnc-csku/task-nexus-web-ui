@@ -217,12 +217,14 @@ export default function SprintsList({
             onOpenChange={onOpenChangeSprintGoal}
             sprintGoals={sprint.sprintGoal ?? ""}
           />
-          <RemaingNotDoneTasksModal
-            projectId={project.id}
-            isOpen={isRemaingNotDoneTasksOpen}
-            onOpenChange={onOpenChangeRemaingNotDoneTasks}
-            remainingTaskRefs={remainingTaskRefs}
-          />
+          {remainingTaskRefs.length > 0 && (
+            <RemaingNotDoneTasksModal
+              projectId={project.id}
+              isOpen={isRemaingNotDoneTasksOpen}
+              onOpenChange={onOpenChangeRemaingNotDoneTasks}
+              remainingTaskRefs={remainingTaskRefs}
+            />
+          )}
           <EditSprintModal
             isOpen={isEditSprintOpen}
             onOpenChange={onOpenChangeEditSprint}

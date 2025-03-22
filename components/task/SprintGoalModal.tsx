@@ -13,7 +13,6 @@ export default function SprintGoalModal({
   isOpen,
   onOpenChange,
 }: SprintGoalModalProps) {
-  
   return (
     <Modal
       isOpen={isOpen}
@@ -24,7 +23,14 @@ export default function SprintGoalModal({
           <>
             <ModalHeader>Sprint Goals</ModalHeader>
             <ModalBody className="mx-3">
-              <p>{sprintGoals}</p>
+              <p>
+                {sprintGoals.split("\n").map((line, index) => (
+                  <span key={index}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </p>
             </ModalBody>
           </>
         )}
