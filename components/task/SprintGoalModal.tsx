@@ -1,26 +1,36 @@
+"use client";
+
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@heroui/modal";
 
 interface SprintGoalModalProps {
+  sprintGoals: string;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export default function SprintGoalModal({ isOpen, onOpenChange }: SprintGoalModalProps) {
+export default function SprintGoalModal({
+  sprintGoals,
+  isOpen,
+  onOpenChange,
+}: SprintGoalModalProps) {
   return (
     <Modal
       isOpen={isOpen}
       onOpenChange={onOpenChange}
     >
       <ModalContent className="py-3">
-        {(onClose) => (
+        {() => (
           <>
-            <ModalHeader>Sprint Goal</ModalHeader>
+            <ModalHeader>Sprint Goals</ModalHeader>
             <ModalBody className="mx-3">
-              <ul className="list-disc">
-                <li>Goal 1</li>
-                <li>Goal 2</li>
-                <li>Goal 3</li>
-              </ul>
+              <p>
+                {sprintGoals.split("\n").map((line, index) => (
+                  <span key={index}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </p>
             </ModalBody>
           </>
         )}

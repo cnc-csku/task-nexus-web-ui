@@ -7,6 +7,7 @@ import { Control, Controller, UseFormRegister, UseFormResetField } from "react-h
 import { DatePicker } from "@heroui/date-picker";
 import { fromDate } from "@internationalized/date";
 import { IoMdClose } from "react-icons/io";
+import { browserTimezone } from "@/utils/timeUtils";
 
 export interface CustomAttributeFieldsProps {
   control: Control<CreateTaskRequestType>;
@@ -67,7 +68,7 @@ export default function CustomAttributeFields({
                   <DatePicker
                     label={attribute.name}
                     granularity="day"
-                    value={field.value ? fromDate(field.value, "UTC") : null}
+                    value={field.value ? fromDate(field.value, browserTimezone()) : null}
                     onChange={(dateValue) => {
                       field.onChange(dateValue ? dateValue.toDate() : null);
                     }}

@@ -19,6 +19,7 @@ import ApprovalFields from "./ApprovalFields";
 import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
 import { Sprint } from "@/interfaces/Sprint";
 import { Key } from "react";
+import { browserTimezone } from "@/utils/timeUtils";
 
 export interface CreateTaskFormProps {
   parents: Task[];
@@ -199,10 +200,10 @@ export default function CreateTaskForm({
               <DatePicker
                 label="Start Date"
                 granularity="day"
-                minValue={today("GMT")} // Set min selectable date to today
+                minValue={today(browserTimezone())}
                 errorMessage={errors.startDate?.message}
                 isInvalid={!!errors.startDate}
-                value={field.value ? fromDate(field.value, "GMT") : null}
+                value={field.value ? fromDate(field.value, browserTimezone()) : null}
                 onChange={(dateValue) => {
                   field.onChange(dateValue ? dateValue.toDate() : null);
                 }}
@@ -229,10 +230,10 @@ export default function CreateTaskForm({
               <DatePicker
                 label="Due Date"
                 granularity="day"
-                minValue={today("GMT")} // Prevent past due dates
+                minValue={today(browserTimezone())}
                 errorMessage={errors.dueDate?.message}
                 isInvalid={!!errors.dueDate}
-                value={field.value ? fromDate(field.value, "GMT") : null}
+                value={field.value ? fromDate(field.value, browserTimezone()) : null}
                 onChange={(dateValue) => {
                   field.onChange(dateValue ? dateValue.toDate() : null);
                 }}

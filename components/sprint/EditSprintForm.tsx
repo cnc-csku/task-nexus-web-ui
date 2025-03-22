@@ -1,47 +1,52 @@
 "use client";
 
-import { QuickCreateEpicSchema, QuickCreateEpicType } from "@/interfaces/Task";
-import { Input } from "@heroui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
-import { DatePicker } from "@heroui/date-picker";
-import { fromDate, today } from "@internationalized/date"; // Import today() for minValue
-import { Button } from "@heroui/button";
-import { IoMdClose } from "react-icons/io";
+import { SprintStatus } from "@/enums/Sprint";
+import {
+  Sprint,
+  UpdateSprintSchema,
+  UpdateSprintType,
+} from "@/interfaces/Sprint";
 import { browserTimezone } from "@/utils/timeUtils";
+import { Button } from "@heroui/button";
+import { DatePicker } from "@heroui/date-picker";
+import { Input, Textarea } from "@heroui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { fromDate, today } from "@internationalized/date";
+import { Controller, useForm } from "react-hook-form";
+import { IoMdClose } from "react-icons/io";
 
-interface CreateEpicFormProps {
-  submitFn: (data: QuickCreateEpicType) => void;
+export interface EditSprintFormProps {
+  sprint: Sprint;
   isLoading: boolean;
+  submitFn: (data: UpdateSprintType) => void;
 }
 
-export default function QuickCreateEpicForm({ submitFn, isLoading }: CreateEpicFormProps) {
+export default function EditSprintForm({ sprint, isLoading, submitFn }: EditSprintFormProps) {
   const {
     control,
     register,
-    handleSubmit,
     resetField,
+    handleSubmit,
     formState: { errors },
-  } = useForm<QuickCreateEpicType>({
-    resolver: zodResolver(QuickCreateEpicSchema),
+  } = useForm<UpdateSprintType>({
+    resolver: zodResolver(UpdateSprintSchema),
     defaultValues: {
-      title: "",
-      startDate: null,
-      dueDate: null,
+      title: sprint.title,
+      startDate: sprint.startDate,
+      endDate: sprint.endDate,
+      sprintGoal: sprint.sprintGoal ?? "",
     },
   });
 
   return (
     <form
       onSubmit={handleSubmit(submitFn)}
-      className="space-y-4"
+      className="grid gap-4"
     >
       <Input
-        label="Title"
-        errorMessage={errors.title?.message}
+        label="Sprint Title"
         isInvalid={!!errors.title}
-        isRequired
-        autoFocus
+        errorMessage={errors.title?.message}
         {...register("title")}
       />
 
@@ -60,6 +65,7 @@ export default function QuickCreateEpicForm({ submitFn, isLoading }: CreateEpicF
               onChange={(dateValue) => {
                 field.onChange(dateValue ? dateValue.toDate() : null);
               }}
+              isRequired={sprint.status !== SprintStatus.Created}
               selectorButtonPlacement="start"
               endContent={
                 <button
@@ -75,29 +81,29 @@ export default function QuickCreateEpicForm({ submitFn, isLoading }: CreateEpicF
           </div>
         )}
       />
-
       <Controller
-        name="dueDate"
+        name="endDate"
         control={control}
         render={({ field }) => (
           <div className="flex items-center gap-2">
             <DatePicker
-              label="Due Date"
+              label="End Date"
               granularity="day"
               minValue={today(browserTimezone())}
-              errorMessage={errors.dueDate?.message}
-              isInvalid={!!errors.dueDate}
+              errorMessage={errors.endDate?.message}
+              isInvalid={!!errors.endDate}
               value={field.value ? fromDate(field.value, browserTimezone()) : null}
               onChange={(dateValue) => {
                 field.onChange(dateValue ? dateValue.toDate() : null);
               }}
               selectorButtonPlacement="start"
+              isRequired={sprint.status !== SprintStatus.Created}
               endContent={
                 <button
                   type="button"
                   color="danger"
                   className="hover:bg-red-300 rounded-xl p-2 hover:text-red-500"
-                  onClick={() => resetField("dueDate", { defaultValue: null })}
+                  onClick={() => resetField("endDate", { defaultValue: null })}
                 >
                   <IoMdClose />
                 </button>
@@ -106,14 +112,18 @@ export default function QuickCreateEpicForm({ submitFn, isLoading }: CreateEpicF
           </div>
         )}
       />
-
+      <Textarea
+        label="Sprint Goals"
+        isInvalid={!!errors.sprintGoal}
+        errorMessage={errors.sprintGoal?.message}
+        {...register("sprintGoal")}
+      />
       <Button
-        type="submit"
-        color="primary"
-        fullWidth
         isLoading={isLoading}
+        color="primary"
+        type="submit"
       >
-        Create
+        Start Sprint
       </Button>
     </form>
   );

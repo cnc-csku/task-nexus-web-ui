@@ -119,3 +119,7 @@ export type UpdateTaskSprintFormType = z.infer<typeof UpdateTaskSprintFormSchema
 export interface UpdateTaskSprintRequest {
   currentSprintId: string | null;
 }
+
+export interface FindManyTasksFilter {
+  taskRefs: string[];
+}

@@ -11,6 +11,7 @@ import useAllProjectMembers from "@/hooks/api/project/useAllProjectMembers";
 import useFindProjectById from "@/hooks/api/project/useFindProjectById";
 import useSprintsByProjectId from "@/hooks/api/sprint/useSprintsByProjectId";
 import LoadingScreen from "../ui/LoadingScreen";
+import { SprintStatus } from "@/enums/Sprint";
 
 interface CreateTaskModalProps {
   isOpen: boolean;
@@ -49,7 +50,9 @@ export default function CreateTaskModal({
     data: sprints,
     isPending: isPendingSprints,
     error: errorSprints,
-  } = useSprintsByProjectId(projectId);
+  } = useSprintsByProjectId(projectId, {
+    statuses: [SprintStatus.Created, SprintStatus.InProgress],
+  });
 
   if (isProjectPending || isMemberPeding || isPendingSprints) {
     return <LoadingScreen />;

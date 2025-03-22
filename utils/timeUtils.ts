@@ -23,3 +23,7 @@ export function formatDateAsMMMDDYYYY(date: Date | string | number): string {
     return "Invalid date";
   }
 }
+
+export function browserTimezone(): string {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}

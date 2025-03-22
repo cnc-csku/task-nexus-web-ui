@@ -5,16 +5,18 @@ import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@herou
 
 export interface ConfirmationModalProps {
   isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
   confirmationMessage: string;
+  isLoading: boolean;
+  onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
   onCancel?: () => void;
 }
 
 export default function ConfirmationModal({
   isOpen,
-  onOpenChange,
   confirmationMessage,
+  isLoading,
+  onOpenChange,
   onConfirm,
   onCancel,
 }: ConfirmationModalProps) {
@@ -32,10 +34,10 @@ export default function ConfirmationModal({
             </ModalBody>
             <ModalFooter>
               <Button
+                isLoading={isLoading}
                 color="primary"
                 onPress={() => {
                   onConfirm();
-                  onClose();
                 }}
               >
                 Confirm

@@ -16,7 +16,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { useState } from "react";
-import useUpdateTaskSprint from "@/hooks/api/task/useUpdateSprint";
+import useUpdateTaskSprint from "@/hooks/api/task/useUpdateTaskSprint";
 import { getApiErrorMessage } from "@/utils/errutils";
 import { toast } from "sonner";
 import LoadingScreen from "../ui/LoadingScreen";

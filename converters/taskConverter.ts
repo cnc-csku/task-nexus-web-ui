@@ -1,6 +1,6 @@
-import { ListTasksFilter } from "@/interfaces/Task";
+import { FindManyTasksFilter, ListTasksFilter } from "@/interfaces/Task";
 
-export function toQueryParams(filter: ListTasksFilter): string {
+export const convertListTasksFiltertoToQueryParams = (filter: ListTasksFilter): string => {
   const params = new URLSearchParams();
 
   if (filter.epicTaskId) {
@@ -22,3 +22,12 @@ export function toQueryParams(filter: ListTasksFilter): string {
 
   return params.toString();
 }
+
+export const convertFindManyTasksFilterToQueryParams = (filter: FindManyTasksFilter): string => {
+  const params = new URLSearchParams();
+
+  filter.taskRefs?.forEach((taskRef) => params.append("taskRefs", taskRef));
+
+  return params.toString();
+};
+
