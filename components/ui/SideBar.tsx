@@ -1,7 +1,6 @@
 "use client";
 
 import { MdAnalytics, MdSettings, MdTimeline, MdDashboard } from "react-icons/md";
-import { GrPowerCycle } from "react-icons/gr";
 import { GoTasklist } from "react-icons/go";
 import SideBarItem from "./SideBarItem";
 import { Button } from "@heroui/button";

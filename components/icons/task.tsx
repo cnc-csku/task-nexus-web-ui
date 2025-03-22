@@ -1,15 +1,15 @@
 import { ReactNode } from "react";
-import { MdCheckCircle, MdDangerous, MdReportProblem, MdWarning } from "react-icons/md";
+import { MdCheckCircle, MdCircle, MdDangerous, MdReportProblem, MdWarning } from "react-icons/md";
 import { FaClipboardCheck, FaBug } from "react-icons/fa";
 import { TaskPriority, TaskType } from "@/enums/Task";
 import { FaDiamond } from "react-icons/fa6";
 import { RiBookFill } from "react-icons/ri";
 
 export const priorityIcons: Record<TaskPriority, ReactNode> = {
-  [TaskPriority.Low]: <MdCheckCircle className="text-green-500" />,
-  [TaskPriority.Medium]: <MdWarning className="text-yellow-500" />,
-  [TaskPriority.High]: <MdReportProblem className="text-orange-500" />,
-  [TaskPriority.Critical]: <MdDangerous className="text-red-600" />,
+  [TaskPriority.Low]: <MdCircle className="text-green-500" size={12} />,
+  [TaskPriority.Medium]: <MdCircle className="text-yellow-500" size={12} />,
+  [TaskPriority.High]: <MdCircle className="text-orange-500" size={12} />,
+  [TaskPriority.Critical]: <MdCircle className="text-red-600" size={12} />,
 };
 
 export const taskIcons: Record<TaskType, ReactNode> = {

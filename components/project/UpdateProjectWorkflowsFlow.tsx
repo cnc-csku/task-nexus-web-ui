@@ -14,8 +14,6 @@ import {
 import type { Node, Edge, NodeTypes, OnConnect, EdgeTypes, OnBeforeDelete } from "@xyflow/react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useCallback, useEffect } from "react";
-
-import "@xyflow/react/dist/style.css";
 import EditableNode from "@/components/reactflow/EditableNode";
 import ButtonEdge from "@/components/reactflow/ButtonEdge";
 import EditableStartNode from "@/components/reactflow/EditableStartNode";
@@ -23,7 +21,6 @@ import EditableEndNode from "@/components/reactflow/EditableEndNode";
 import { UpdateProjectWorkflowType, Workflow } from "@/interfaces/Project";
 import { toast } from "sonner";
 import { MdSave } from "react-icons/md";
-import { boolean } from "zod";
 
 const nodeTypes: NodeTypes = {
   editableNode: EditableNode,
@@ -198,8 +195,8 @@ export default function UpdateProjectWorkflowsFlow({
         type: workflow.isDefault
           ? "editableStartNode"
           : workflow.isDone
-            ? "editableEndNode"
-            : "editableNode",
+          ? "editableEndNode"
+          : "editableNode",
       };
     });
 
@@ -257,6 +254,26 @@ export default function UpdateProjectWorkflowsFlow({
       toast.error("Please connect all states");
       return;
     }
+
+    const transformedWorkflows = transformToWorkflows(nodes, edges);
+
+    // Sort workflows by previous statuses
+    const sortedWorkflows: Workflow[] = [];
+    const visited = new Set<string>();
+
+    const visit = (status: string) => {
+      if (visited.has(status)) return;
+      visited.add(status);
+
+      const workflow = transformedWorkflows.find((w) => w.status === status);
+      if (!workflow) return;
+
+      if (workflow.previousStatuses) {
+        workflow.previousStatuses.forEach((prev) => visit(prev));
+      }
+
+      sortedWorkflows.push(workflow);
+    };
 
     submitFn({ projectId, workflows: transformToWorkflows(nodes, edges) });
   };
