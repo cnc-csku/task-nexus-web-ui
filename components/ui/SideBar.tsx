@@ -41,11 +41,6 @@ export default function SideBar({ isOpen }: SideBarProps) {
                 startIcon={<GoTasklist className="text-lg" />}
               />
               <SideBarItem
-                name="Sprint"
-                href={`/projects/${projectId}/sprints`}
-                startIcon={<GrPowerCycle className="text-lg" />}
-              />
-              <SideBarItem
                 name="Timeline"
                 href={`/projects/${projectId}/timeline`}
                 startIcon={<MdTimeline className="text-lg" />}
