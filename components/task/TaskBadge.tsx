@@ -15,7 +15,7 @@ export default function TaskBadge({ taskType, size }: TaskBadgeProps) {
     [TaskType.Story]: "bg-emerald-200",
     [TaskType.Task]: "bg-blue-200",
     [TaskType.Bug]: "bg-red-200",
-    [TaskType.SubTask]: "bg-green-200",
+    [TaskType.SubTask]: "bg-blue-200",
   };
 
   const taskTextColor: Record<TaskType, string> = {
@@ -23,7 +23,7 @@ export default function TaskBadge({ taskType, size }: TaskBadgeProps) {
     [TaskType.Story]: "text-emerald-800",
     [TaskType.Task]: "text-blue-800",
     [TaskType.Bug]: "text-red-800",
-    [TaskType.SubTask]: "text-green-800",
+    [TaskType.SubTask]: "text-blue-800",
   };
 
   const taskIcons: Record<TaskType, ReactNode> = {
@@ -38,7 +38,7 @@ export default function TaskBadge({ taskType, size }: TaskBadgeProps) {
     <Chip size={size} className={`${taskBgColor[taskType]} ${taskTextColor[taskType]}`}>
       <div className="flex items-center space-x-1">
         <div>{taskIcons[taskType]}</div>
-        <div>{taskType}</div>
+        <div>{taskType === TaskType.SubTask ? "SUB TASK" : taskType}</div>
       </div>
     </Chip>
   );

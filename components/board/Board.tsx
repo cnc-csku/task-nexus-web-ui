@@ -41,7 +41,7 @@ export default function Board({
     searchKeyword: search,
     statuses: selectedStatuses,
     sprintIds: currentSprints.map(({ id }) => id),
-    types: [TaskType.Task, TaskType.Bug, TaskType.Story],
+    types: [TaskType.Task, TaskType.Bug, TaskType.Story, TaskType.SubTask],
   });
 
   if (isTasksPending) {
