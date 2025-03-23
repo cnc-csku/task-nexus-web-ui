@@ -106,3 +106,10 @@ export const UpdateProjectAttributesTemplatesSchema = z.object({
 export type UpdateProjectAttributesTemplatesType = z.infer<
   typeof UpdateProjectAttributesTemplatesSchema
 >;
+
+export const UpdateProjectMemberPositionSchema = z.object({
+  userId: z.string().nonempty(),
+  position: z.string().nonempty(),
+});
+
+export type UpdateProjectMemberPositionType = z.infer<typeof UpdateProjectMemberPositionSchema>;

@@ -1,23 +1,23 @@
 "use client";
 
-import UpdateProjectPositionsForm from "@/components/project/UpdateProjectPositionsForm";
+import UpdateProjectOwnerPositionForm from "@/components/project/UpdateProjectOwnerPositionForm";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import useFindProjectById from "@/hooks/api/project/useFindProjectById";
-import useUpdateProjectPositions from "@/hooks/api/project/useUpdateProjectPositions";
-import { UpdateProjectPositionsType } from "@/interfaces/Project";
+import useUpdateProjectMemberPosition from "@/hooks/api/project/useUpdateProjectMemberPosition";
+import { UpdateProjectMemberPositionType, UpdateProjectPositionsType } from "@/interfaces/Project";
 import { getApiErrorMessage } from "@/utils/errutils";
 import { Divider } from "@heroui/divider";
 import { motion } from "framer-motion";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-export default function SetupProjectPositions() {
+export default function SetupOwnerPosition() {
   const { projectId } = useParams<{ projectId: string }>();
   const router = useRouter();
 
   const { data: project, isPending, error } = useFindProjectById(projectId);
 
-  const { mutateAsync, isPending: isUpdatePending } = useUpdateProjectPositions({
+  const { mutateAsync, isPending: isUpdatePending } = useUpdateProjectMemberPosition({
     projectId: projectId,
   });
 
@@ -29,10 +29,13 @@ export default function SetupProjectPositions() {
     return <div>{error.message}</div>;
   }
 
-  const handleUpdateProjectPositions = async (data: UpdateProjectPositionsType) => {
+  const handleUpdateProjectOwnerPosition = async (data: UpdateProjectMemberPositionType) => {
     try {
-      await mutateAsync(data);
-      router.push(`/projects/${projectId}/setup/owner-position`);
+      await mutateAsync({
+        userId: project.ownerUserId,
+        position: data.position,
+      });
+      router.push(`/projects/${projectId}/setup/workflows`);
     } catch (error) {
       toast.error(getApiErrorMessage(error));
       return;
@@ -50,20 +53,21 @@ export default function SetupProjectPositions() {
         >
           <div className="flex items-center gap-2">
             <Divider className="inline-block w-5" />
-            <h3>Step 2</h3>
+            <h3>Step 3</h3>
           </div>
-          <h1 className="text-2xl mb-5">Setup Project Positions</h1>
+          <h1 className="text-2xl mb-5">Setup Owner Position</h1>
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          <UpdateProjectPositionsForm
-            isLoading={isUpdatePending}
+          <UpdateProjectOwnerPositionForm
             projectId={projectId}
-            currentPositions={project.positions}
-            submitFn={handleUpdateProjectPositions}
+            ownerUserId={project.ownerUserId}
+            allPositions={project.positions}
+            isLoading={isUpdatePending}
+            submitFn={handleUpdateProjectOwnerPosition}
           />
         </motion.div>
       </div>
