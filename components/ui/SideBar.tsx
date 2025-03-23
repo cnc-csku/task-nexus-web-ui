@@ -39,11 +39,11 @@ export default function SideBar({ isOpen }: SideBarProps) {
                 href={`/projects/${projectId}/tasks`}
                 startIcon={<GoTasklist className="text-lg" />}
               />
-              <SideBarItem
+              {/* <SideBarItem
                 name="Timeline"
                 href={`/projects/${projectId}/timeline`}
                 startIcon={<MdTimeline className="text-lg" />}
-              />
+              /> */}
               <SideBarItem
                 name="Report"
                 href={`/projects/${projectId}/report`}
@@ -54,7 +54,7 @@ export default function SideBar({ isOpen }: SideBarProps) {
           <div>
             <SideBarItem
               name="Project Setting"
-              href="/settings"
+              href={`/projects/${projectId}/settings`}
               startIcon={<MdSettings className="text-lg" />}
             />
           </div>

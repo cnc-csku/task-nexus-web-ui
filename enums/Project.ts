@@ -9,3 +9,9 @@ export enum AttributeType {
   Boolean = "BOOLEAN",
   Date = "DATE",
 }
+
+export enum ProjectMemberRole {
+  Admin = "ADMIN",
+  Moderator = "MODERATOR",
+  Member = "MEMBER",
+}

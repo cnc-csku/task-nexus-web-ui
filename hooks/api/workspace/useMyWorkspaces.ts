@@ -2,12 +2,12 @@ import axios from "@/lib/axios/axios.config";
 import { useQuery } from "@tanstack/react-query";
 import workspaceQueryKeys from "./workspaceQueryKeys";
 import { getSession, useSession } from "next-auth/react";
-import { Workspace } from "@/interfaces/Workspace";
+import { MyWorkspace } from "@/interfaces/Workspace";
 
 const fetchMyWorkspacesFn = async () => {
   const session = await getSession();
 
-  const response = await axios.get<Workspace[]>("/workspaces/v1/own-workspaces", {
+  const response = await axios.get<MyWorkspace[]>("/workspaces/v1/own-workspaces", {
     headers: {
       Authorization: `Bearer ${session?.user?.token}`,
     },

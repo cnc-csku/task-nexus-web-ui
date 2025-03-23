@@ -5,6 +5,7 @@ import React from "react";
 import WorkspaceList from "../../../components/workspace/WorkspaceList";
 import useMyWorkspaces from "@/hooks/api/workspace/useMyWorkspaces";
 import LoadingScreen from "@/components/ui/LoadingScreen";
+import WorkspaceMemberInvitationAction from "@/components/workspace/WorkspaceMemberInvitationAction";
 
 export default function WorkspacesListPage() {
   const { data: workspaces, isPending, error } = useMyWorkspaces();
@@ -34,6 +35,7 @@ export default function WorkspacesListPage() {
           transition={{ delay: 0.5 }}
         >
           <WorkspaceList workspaces={workspaces} />
+          <WorkspaceMemberInvitationAction />
         </motion.div>
       </div>
     </div>

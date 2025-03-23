@@ -3,10 +3,45 @@
 import { motion } from "framer-motion";
 import { UserRegisterFormType } from "@/interfaces/User";
 import RegisterForm from "@/components/auth/RegisterForm";
+import axios from "@/lib/axios/axios.config";
+import { getApiErrorMessage } from "@/utils/errutils";
+import { toast } from "sonner";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
   const onRegister = async (data: UserRegisterFormType) => {
-    console.log(data);
+    setIsLoading(true);
+    try {
+      const registerResponse = await axios.post("auth/v1/register", {
+        fullName: data.fullName,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (registerResponse.status === 200) {
+        toast.success("Registration successful");
+      }
+
+      const response = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      if (response?.ok) {
+        router.push("/workspaces");
+        return;
+      }
+    } catch (error) {
+      toast.error(getApiErrorMessage(error));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -26,7 +61,7 @@ export default function RegisterPage() {
       >
         <RegisterForm
           onRegister={onRegister}
-          isLoading={false}
+          isLoading={isLoading}
         />
       </motion.div>
     </div>

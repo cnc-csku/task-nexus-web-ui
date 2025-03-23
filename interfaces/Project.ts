@@ -113,3 +113,16 @@ export const UpdateProjectMemberPositionSchema = z.object({
 });
 
 export type UpdateProjectMemberPositionType = z.infer<typeof UpdateProjectMemberPositionSchema>;
+
+
+export const InviteProjectMemberSchema = z.object({
+  userId: z.string(),
+  role: z.string(),
+  position: z.string(),
+});
+
+export type InviteProjectMemberType = z.infer<typeof InviteProjectMemberSchema>;
+
+export interface InviteProjectMemberRequest {
+  members: InviteProjectMemberType[];
+}
