@@ -8,9 +8,10 @@ import ChildrenListItem from "./ChildrenListItem";
 export interface ChidrenListDetailProps {
   project: Project;
   taskRef: string;
+  compact?: boolean;
 }
 
-export default function ChildrenListDetail({ project, taskRef }: ChidrenListDetailProps) {
+export default function ChildrenListDetail({ project, taskRef, compact }: ChidrenListDetailProps) {
   const {
     data: childrenTasks,
     isPending: isChildrenTasksPending,
@@ -28,7 +29,7 @@ export default function ChildrenListDetail({ project, taskRef }: ChidrenListDeta
   return (
     <div className="space-y-2">
       {childrenTasks.map((task) => (
-        <ChildrenListItem key={task.taskRef} projectId={project.id} task={task} />
+        <ChildrenListItem key={task.taskRef} projectId={project.id} task={task} compact={compact} />
       ))}
     </div>
   );

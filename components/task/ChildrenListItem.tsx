@@ -8,9 +8,10 @@ import { Avatar } from "@heroui/avatar";
 export interface ChildrenListItemProps {
   projectId: string;
   task: Task;
+  compact?: boolean;
 }
 
-export default function ChildrenListItem({ projectId, task }: ChildrenListItemProps) {
+export default function ChildrenListItem({ projectId, task, compact }: ChildrenListItemProps) {
   const router = useRouter();
 
   const handleCopyTaskRef = () => {
@@ -50,7 +51,7 @@ export default function ChildrenListItem({ projectId, task }: ChildrenListItemPr
         <div>{task.title}</div>
       </div>
       <div className="flex gap-2 mr-1">
-        {task.assignees
+        {!compact && task.assignees
           .filter(
             (assignee) =>
               assignee.point !== null && assignee.userId !== "" && assignee.userId !== undefined
