@@ -7,6 +7,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { SharedSelection } from "@heroui/system";
 import { useState } from "react";
 import { toast } from "sonner";
+import { taskIcons } from "../icons/task";
 
 export interface ChangeTaskEpicSelectProps {
   currentEpic: string | null;
@@ -66,7 +67,12 @@ export default function ChangeTaskEpicSelect({
       <>
         <SelectItem key="NO_EPIC">No Epic</SelectItem>
         {allEpics.map((epic) => (
-          <SelectItem key={epic.id}>{epic.title}</SelectItem>
+          <SelectItem
+            startContent={taskIcons["EPIC"]}
+            key={epic.id}
+          >
+            {epic.title}
+          </SelectItem>
         ))}
       </>
     </Select>

@@ -15,6 +15,7 @@ export const convertListTasksFiltertoToQueryParams = (filter: ListTasksFilter): 
   filter.positions?.forEach((position) => params.append("positions", position));
   filter.statuses?.forEach((status) => params.append("statuses", status));
   filter.userIds?.forEach((userId) => params.append("userIds", userId));
+  filter.types.forEach((type) => params.append("types", type));
 
   if (filter.searchKeyword) {
     params.append("searchKeyword", filter.searchKeyword);

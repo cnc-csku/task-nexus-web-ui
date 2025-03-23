@@ -18,7 +18,6 @@ import CustomAttributeFields from "./CustomAttributeFields";
 import ApprovalFields from "./ApprovalFields";
 import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
 import { Sprint } from "@/interfaces/Sprint";
-import { Key } from "react";
 import { browserTimezone } from "@/utils/timeUtils";
 
 export interface CreateTaskFormProps {
@@ -58,16 +57,15 @@ export default function CreateTaskForm({
     formState: { errors },
   } = useForm<CreateTaskRequestType>({
     defaultValues: {
-      description: JSON.stringify({
-        id: "initial-block",
-        type: "paragraph",
-        content: [
-          {
-            type: "text",
-            text: "\u00A0",
-          },
-        ],
-      }),
+      description: JSON.stringify([
+        {
+          id: "4bbfc57b-d00c-49f6-af09-caf198534f1f",
+          type: "paragraph",
+          props: { textColor: "default", backgroundColor: "default", textAlignment: "left" },
+          content: [{ type: "text", text: " ", styles: {} }],
+          children: [],
+        },
+      ]),
       sprintId: defaultSprintId ?? null,
       parentId: defaultParentId ?? null,
     },
@@ -77,8 +75,8 @@ export default function CreateTaskForm({
     taskLevel === TaskLevel.Level0
       ? [TaskType.Epic]
       : TaskLevel.Level1
-        ? [TaskType.Story, TaskType.Task, TaskType.Bug]
-        : [TaskType.SubTask];
+      ? [TaskType.Story, TaskType.Task, TaskType.Bug]
+      : [TaskType.SubTask];
 
   const editor = useCreateBlockNote();
 
@@ -100,9 +98,15 @@ export default function CreateTaskForm({
         <Controller
           name="description"
           control={control}
-          defaultValue=""
           render={() => {
-            return <BlockNoteView editor={editor} />;
+            return (
+              <BlockNoteView
+                editor={editor}
+                onChange={() => {
+                  setValue("description", JSON.stringify(editor.document));
+                }}
+              />
+            );
           }}
         />
       </div>

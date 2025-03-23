@@ -53,6 +53,7 @@ export interface ListTasksFilter {
   statuses: string[] | null;
   isTaskInBacklog?: boolean;
   searchKeyword: string;
+  types: TaskType[];
 }
 
 export interface TaskApprovalSummary {
@@ -123,3 +124,24 @@ export interface UpdateTaskSprintRequest {
 export interface FindManyTasksFilter {
   taskRefs: string[];
 }
+
+export const UpdateTaskAssigneesSchema = z.array(
+  z.object({
+    position: z.string().nonempty(),
+    userId: z.string().nullable(),
+    point: z.number().min(0).max(100).nullable(),
+  })
+);
+
+export type UpdateTaskAssigneesType = z.infer<typeof UpdateTaskAssigneesSchema>;
+
+
+export const UpdateTaskDetailSchema = z.object({
+  title: z.string().nonempty(),
+  description: z.string().nullable(),
+  priority: z.string().nonempty(),
+  startDate: z.date().nullable(),
+  dueDate: z.date().nullable(),
+});
+
+export type UpdateTaskDetailType = z.infer<typeof UpdateTaskDetailSchema>;

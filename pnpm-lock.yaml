@@ -27,57 +27,6 @@ importers:
       '@dnd-kit/utilities':
         specifier: ^3.2.2
         version: 3.2.2(react@19.0.0)
-      '@editorjs/checklist':
-        specifier: ^1.6.0
-        version: 1.6.0
-      '@editorjs/code':
-        specifier: ^2.9.3
-        version: 2.9.3
-      '@editorjs/delimiter':
-        specifier: ^1.4.2
-        version: 1.4.2
-      '@editorjs/editorjs':
-        specifier: ^2.30.8
-        version: 2.30.8
-      '@editorjs/embed':
-        specifier: ^2.7.6
-        version: 2.7.6
-      '@editorjs/header':
-        specifier: ^2.8.8
-        version: 2.8.8
-      '@editorjs/image':
-        specifier: ^2.10.2
-        version: 2.10.2
-      '@editorjs/inline-code':
-        specifier: ^1.5.1
-        version: 1.5.1
-      '@editorjs/link':
-        specifier: ^2.6.2
-        version: 2.6.2
-      '@editorjs/list':
-        specifier: ^2.0.6
-        version: 2.0.6
-      '@editorjs/marker':
-        specifier: ^1.4.0
-        version: 1.4.0
-      '@editorjs/paragraph':
-        specifier: ^2.11.7
-        version: 2.11.7
-      '@editorjs/quote':
-        specifier: ^2.7.6
-        version: 2.7.6
-      '@editorjs/raw':
-        specifier: ^2.5.1
-        version: 2.5.1
-      '@editorjs/simple-image':
-        specifier: ^1.6.0
-        version: 1.6.0
-      '@editorjs/table':
-        specifier: ^2.4.4
-        version: 2.4.4
-      '@editorjs/warning':
-        specifier: ^1.4.1
-        version: 1.4.1
       '@heroui/accordion':
         specifier: 2.2.13
         version: 2.2.13(@heroui/system@2.4.12(@heroui/theme@2.4.12(tailwindcss@3.4.17))(framer-motion@12.5.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@heroui/theme@2.4.12(tailwindcss@3.4.17))(framer-motion@12.5.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -228,6 +177,9 @@ importers:
       axios:
         specifier: ^1.8.4
         version: 1.8.4
+      dompurify:
+        specifier: ^3.2.4
+        version: 3.2.4
       framer-motion:
         specifier: ^12.5.0
         version: 12.5.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -332,15 +284,6 @@ packages:
   '@codexteam/icons@0.0.4':
     resolution: {integrity: sha512-V8N/TY2TGyas4wLrPIFq7bcow68b3gu8DfDt1+rrHPtXxcexadKauRJL6eQgfG7Z0LCrN4boLRawR4S9gjIh/Q==}
 
-  '@codexteam/icons@0.0.5':
-    resolution: {integrity: sha512-s6H2KXhLz2rgbMZSkRm8dsMJvyUNZsEjxobBEg9ztdrb1B2H3pEzY6iTwI4XUPJWJ3c3qRKwV4TrO3J5jUdoQA==}
-
-  '@codexteam/icons@0.0.6':
-    resolution: {integrity: sha512-L7Q5PET8PjKcBT5wp7VR+FCjwCi5PUp7rd/XjsgQ0CI5FJz0DphyHGRILMuDUdCW2MQT9NHbVr4QP31vwAkS/A==}
-
-  '@codexteam/icons@0.3.3':
-    resolution: {integrity: sha512-cp7mkZPgmBuSxigTm3Vb+DtVHYeX7qXfQd7o05vcLD8Ag5WvRlol2QSn5P10k0CDAJwmkH9nQGQLBycErS9lsQ==}
-
   '@daybrush/utils@1.13.0':
     resolution: {integrity: sha512-ALK12C6SQNNHw1enXK+UO8bdyQ+jaWNQ1Af7Z3FNxeAwjYhQT7do+TRE4RASAJ3ObaS2+TJ7TXR3oz2Gzbw0PQ==}
 
@@ -360,62 +303,11 @@ packages:
     peerDependencies:
       react: '>=16.8.0'
 
-  '@editorjs/checklist@1.6.0':
-    resolution: {integrity: sha512-hRNP36DInr73mSK3noHBQeoQb7DA12ANfqTXufEkTgQzx+k4mRJ0HdeGukTIR4JbwjHJ9ecUBnnQqIEGnxCFEg==}
-
-  '@editorjs/code@2.9.3':
-    resolution: {integrity: sha512-nXUrK3CjhpubvShYtcbkpZ9SU15IYwmJOsWZrlWYSzy9unZBRQthii6eABndsCtODzzV0yiSKmTp00RQkFow3Q==}
-
-  '@editorjs/delimiter@1.4.2':
-    resolution: {integrity: sha512-S8q2LpeYdYkVShLp7K8c4HLthDHBevLw+sT+iO0+SH0oMvFmld9SUon3DFzMQ2gG07EOdZGRZ958+sVxyvFjZw==}
-
-  '@editorjs/dom@0.0.5':
-    resolution: {integrity: sha512-SZ78Gwpkp3EUhjBIp0lSojeQ35V9acF8SubJsMeOH/vlOUE40GOnvvwWZnF05lO7bIB0dOHhhJy4N7IIAWxP2w==}
-
   '@editorjs/editorjs@2.30.8':
     resolution: {integrity: sha512-ClFuxI1qZTfXPJTacQfsJtOUP6bKoIe6BQNdAvGsDTDVwMnZEzoaSOwvUpdZEE56xppVfQueNK/1MElV9SJKHg==}
 
-  '@editorjs/embed@2.7.6':
-    resolution: {integrity: sha512-L3agW/23mOI0L+oksUE9UOR5VSNCqapxLH5lma+5j+idjKCC31nxbx07x53MSJ4rlOTO1L7cFVhkqptEdOliJA==}
-
-  '@editorjs/header@2.8.8':
-    resolution: {integrity: sha512-bsMSs34u2hoi0UBuRoc5EGWXIFzJiwYgkFUYQGVm63y5FU+s8zPBmVx5Ip2sw1xgs0fqfDROqmteMvvmbCy62w==}
-
-  '@editorjs/helpers@0.0.4':
-    resolution: {integrity: sha512-ieg3dzo2m1/ELze/RMNADiAiC5amXxIlVXoJ5vvXITOu/p/dPsrF+Oi3h5gBYvtGk9vg5LJUSG5YWU0tBUO1tw==}
-
-  '@editorjs/image@2.10.2':
-    resolution: {integrity: sha512-SU0nP9NhqwA7+Jlco/E7zjYjtRUrVGSOW8bsrrEnH8my588UW7mPGa1zwAHFs/UMB0x8LXKOb1iq40db+2iC6A==}
-
-  '@editorjs/inline-code@1.5.1':
-    resolution: {integrity: sha512-XvKpqw9y1bOYgyuVUHGDuu7KlNWCYIXD5uU1Lpc4s4LJ8VN4TjWFGKJ3sS+LR7zzasWe8hu2ffR1JC6MHIS0EQ==}
-
-  '@editorjs/link@2.6.2':
-    resolution: {integrity: sha512-3cPx6M4ZvwDDvsi0E0fvMR3rvveAV/C0GRo1JLeZJ9cG9QgyoNolj4eu5Eqx3/r1XTC/he54qYEIZ/Dc4Lr4Ow==}
-
-  '@editorjs/list@2.0.6':
-    resolution: {integrity: sha512-QmmRAMtIBlO9k8LxfiqhWM+CjrA9r1F5th3cI9UFhDMC78YqFdFNg+dWrH57bAW4063HJfS1ygbGoH/LfHBkww==}
-
-  '@editorjs/marker@1.4.0':
-    resolution: {integrity: sha512-5ipEXfL44jTTRzgNp/p/YjMO7jT08S5z4V8qA3FFJTfdhKgQyM3mvP1zpdYKw47ZZpVWMCncvk5Nto3BxihEtg==}
-
   '@editorjs/paragraph@2.11.7':
     resolution: {integrity: sha512-qD6bbWvRc4VvP0mXDOm+hOhzzhUYR9ZjcAvgCuKWcCbUMpCvhVF1s8NX40zdjekPi6JEnuHTamCncTrSzVsVhw==}
-
-  '@editorjs/quote@2.7.6':
-    resolution: {integrity: sha512-D01KUMSDj2r+6Z+xjDkQqI+y6URpeHCvj0+P4pah+GtkG040lWjFb2H4pgHFXuol2cbfyAoraYSw85fuPheCvw==}
-
-  '@editorjs/raw@2.5.1':
-    resolution: {integrity: sha512-h7CjXtfSTe4Bj1CL84ch5NW0q0CdrlWsLzQ/kbaFTgx914CzKz4Ug+xgdvytVO1dd1QzB5/HCW0ic1VxtgkhMQ==}
-
-  '@editorjs/simple-image@1.6.0':
-    resolution: {integrity: sha512-WvdGfQPlozwZd3PXQrJnRXk6gEYbv1U2vRupYJ6lTd3/UsLInXYUX5jSFcnGB5ZMH3bd0JDZfcb4d4Sv1/1big==}
-
-  '@editorjs/table@2.4.4':
-    resolution: {integrity: sha512-2wWjxk48C9Z7uaBZIS5dML81c2VsD47Va9J4RDd2UboxcnYV8OZ4oYxKafH5RJIGPj8ykGaROIzyDVR1N4e7Cg==}
-
-  '@editorjs/warning@1.4.1':
-    resolution: {integrity: sha512-7A+irJ6gIh6li4DC7qw/NiWCThlBgtoPUeeIVdldVjoATAu+a1GjS+w/5L24ReacgQJNPVQPPCoMaS1nB83agw==}
 
   '@egjs/agent@2.4.4':
     resolution: {integrity: sha512-cvAPSlUILhBBOakn2krdPnOGv5hAZq92f1YHxYcfu0p7uarix2C6Ia3AVizpS1SGRZGiEkIS5E+IVTLg1I2Iog==}
@@ -2268,6 +2160,9 @@ packages:
   '@types/react@19.0.12':
     resolution: {integrity: sha512-V6Ar115dBDrjbtXSrS+/Oruobc+qVbbUxDFC1RSbRqLt5SYvxxyIDrSC85RWml54g+jfNeEMZhEj7wW07ONQhA==}
 
+  '@types/trusted-types@2.0.7':
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
+
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
@@ -2543,6 +2438,9 @@ packages:
 
   dlv@1.1.3:
     resolution: {integrity: sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==}
+
+  dompurify@3.2.4:
+    resolution: {integrity: sha512-ysFSFEDVduQpyhzAob/kkuJjf5zWkZD8/A9ywSp1byueyuCfHamrCBa14/Oc2iiB0e51B+NpxSl5gmzn+Ms/mg==}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -4124,12 +4022,6 @@ snapshots:
 
   '@codexteam/icons@0.0.4': {}
 
-  '@codexteam/icons@0.0.5': {}
-
-  '@codexteam/icons@0.0.6': {}
-
-  '@codexteam/icons@0.3.3': {}
-
   '@daybrush/utils@1.13.0': {}
 
   '@dnd-kit/accessibility@3.1.1(react@19.0.0)':
@@ -4150,81 +4042,11 @@ snapshots:
       react: 19.0.0
       tslib: 2.8.1
 
-  '@editorjs/checklist@1.6.0':
-    dependencies:
-      '@codexteam/icons': 0.3.3
-
-  '@editorjs/code@2.9.3':
-    dependencies:
-      '@codexteam/icons': 0.3.3
-
-  '@editorjs/delimiter@1.4.2':
-    dependencies:
-      '@codexteam/icons': 0.3.3
-
-  '@editorjs/dom@0.0.5':
-    dependencies:
-      '@editorjs/helpers': 0.0.4
-
   '@editorjs/editorjs@2.30.8': {}
-
-  '@editorjs/embed@2.7.6':
-    dependencies:
-      '@editorjs/editorjs': 2.30.8
-
-  '@editorjs/header@2.8.8':
-    dependencies:
-      '@codexteam/icons': 0.0.5
-      '@editorjs/editorjs': 2.30.8
-
-  '@editorjs/helpers@0.0.4': {}
-
-  '@editorjs/image@2.10.2':
-    dependencies:
-      '@codexteam/icons': 0.3.3
-
-  '@editorjs/inline-code@1.5.1':
-    dependencies:
-      '@codexteam/icons': 0.3.3
-
-  '@editorjs/link@2.6.2':
-    dependencies:
-      '@babel/runtime': 7.26.10
-      '@codexteam/icons': 0.0.4
-
-  '@editorjs/list@2.0.6':
-    dependencies:
-      '@codexteam/icons': 0.3.3
-
-  '@editorjs/marker@1.4.0':
-    dependencies:
-      '@codexteam/icons': 0.0.5
 
   '@editorjs/paragraph@2.11.7':
     dependencies:
       '@codexteam/icons': 0.0.4
-
-  '@editorjs/quote@2.7.6':
-    dependencies:
-      '@codexteam/icons': 0.3.3
-      '@editorjs/dom': 0.0.5
-
-  '@editorjs/raw@2.5.1':
-    dependencies:
-      '@codexteam/icons': 0.0.4
-
-  '@editorjs/simple-image@1.6.0':
-    dependencies:
-      '@codexteam/icons': 0.0.6
-
-  '@editorjs/table@2.4.4':
-    dependencies:
-      '@codexteam/icons': 0.0.6
-
-  '@editorjs/warning@1.4.1':
-    dependencies:
-      '@codexteam/icons': 0.3.3
-      '@editorjs/editorjs': 2.30.8
 
   '@egjs/agent@2.4.4': {}
 
@@ -6889,6 +6711,9 @@ snapshots:
     dependencies:
       csstype: 3.1.3
 
+  '@types/trusted-types@2.0.7':
+    optional: true
+
   '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.3': {}
@@ -7140,6 +6965,10 @@ snapshots:
   diff@5.2.0: {}
 
   dlv@1.1.3: {}
+
+  dompurify@3.2.4:
+    optionalDependencies:
+      '@types/trusted-types': 2.0.7
 
   dunder-proto@1.0.1:
     dependencies:

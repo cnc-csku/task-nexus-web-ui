@@ -142,7 +142,10 @@ export default function TaskListItem({
         onMouseLeave={handleLeaveTask}
       >
         <div className="flex items-center">
-          <TaskBadge taskType={task.type} size="md"/>
+          <TaskBadge
+            taskType={task.type}
+            size="md"
+          />
           <Tooltip
             content="Click to copy task ID"
             placement="top"
@@ -232,7 +235,6 @@ export default function TaskListItem({
               currentStatus={task.status}
               projectId={projectId}
               taskRef={task.taskRef}
-              epics={allEpics}
             />
           </div>
           <div className="flex w-16 justify-end">
