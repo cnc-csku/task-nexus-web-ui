@@ -24,7 +24,9 @@ export default function UpdateProjectOwnerPositionForm({
       className="flex flex-col gap-5"
     >
       <Select
+        label="Owner Position"
         placeholder="Select a position"
+        isRequired
         {...register("position")}
       >
         {allPositions.map((position) => (
