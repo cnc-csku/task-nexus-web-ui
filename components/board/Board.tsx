@@ -7,6 +7,7 @@ import BoardLanes from "./BoardLanes";
 import useTasksByFilter from "@/hooks/api/task/useTasksByFilter";
 import LoadingScreen from "../ui/LoadingScreen";
 import { Sprint } from "@/interfaces/Sprint";
+import { TaskType } from "@/enums/Task";
 
 export interface BoardProps {
   project: Project;
@@ -40,6 +41,7 @@ export default function Board({
     searchKeyword: search,
     statuses: selectedStatuses,
     sprintIds: currentSprints.map(({ id }) => id),
+    types: [TaskType.Task, TaskType.Bug, TaskType.Story],
   });
 
   if (isTasksPending) {

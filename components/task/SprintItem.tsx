@@ -10,6 +10,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/spinner";
 import { SprintStatus } from "@/enums/Sprint";
+import { TaskType } from "@/enums/Task";
 
 export interface SprintsListProps {
   project: Project;
@@ -53,6 +54,7 @@ export default function SprintItem({
     statuses: selectedStatuses,
     epicTaskId: selectedEpic ?? undefined,
     sprintIds: [sprint.id],
+    types: [TaskType.Task, TaskType.Bug, TaskType.Story],
   });
 
   if (taskError) {

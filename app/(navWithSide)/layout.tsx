@@ -21,7 +21,7 @@ export default function MainLayout({
       <div className="col-span-2">
         <SideBar isOpen={isSideBarOpen} />
       </div>
-      <div className={isSideBarOpen ? "col-span-10" : "col-span-12"}>
+      <div className={`${isSideBarOpen ? "col-span-10" : "col-span-12"}`}>
         <Navbar sideBarToggle={sideBarToggle} />
         <MainContainer>{children}</MainContainer>
       </div>

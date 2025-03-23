@@ -34,7 +34,7 @@ export default function UpdateTaskTitleInlineForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex gap-2 items-center"
+      className="flex gap-2 items-center w-[300px] sm:w-[400px] md:w-[500px]"
     >
       <Input
         size="sm"

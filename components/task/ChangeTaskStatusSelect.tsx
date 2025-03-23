@@ -2,7 +2,6 @@
 
 import useUpdateTaskStatus from "@/hooks/api/task/useUpdateTaskStatus";
 import { Workflow } from "@/interfaces/Project";
-import { Task } from "@/interfaces/Task";
 import { getApiErrorMessage } from "@/utils/errutils";
 import { Select, SelectItem } from "@heroui/select";
 import { SharedSelection } from "@heroui/system";
@@ -13,7 +12,6 @@ import { MdOutlineArrowBackIos, MdOutlineArrowForwardIos } from "react-icons/md"
 export interface ChageTaskStatusSelectProps {
   projectId: string;
   workflows: Workflow[];
-  epics: Task[];
   taskRef: string;
   currentStatus: string;
 }

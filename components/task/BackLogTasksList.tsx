@@ -9,6 +9,7 @@ import { Task } from "@/interfaces/Task";
 import { Button } from "@heroui/button";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useDroppable } from "@dnd-kit/core";
+import { TaskType } from "@/enums/Task";
 
 export interface BackLogTasksListProps {
   project: Project;
@@ -48,6 +49,7 @@ export default function BackLogTasksList({
     statuses: selectedStatuses,
     epicTaskId: selectedEpic ?? undefined,
     isTaskInBacklog: true,
+    types: [TaskType.Task, TaskType.Bug, TaskType.Story],
   });
 
   const { setNodeRef } = useDroppable({

@@ -5,7 +5,7 @@ import { accessTokenHeader } from "@/utils/apiUtils";
 import { Task } from "@/interfaces/Task";
 import taskQueryKeys from "./taskQueryKeys";
 
-const fetchTaskById = async (projectId: string, taskRef: string, token: string) => {
+const fetchTaskByRef = async (projectId: string, taskRef: string, token: string) => {
   const { data } = await axios.get<Task>(
     `/projects/v1/${projectId}/tasks/v1/${taskRef}`,
     accessTokenHeader(token)
@@ -14,7 +14,7 @@ const fetchTaskById = async (projectId: string, taskRef: string, token: string) 
   return data;
 };
 
-const useTaskById = (projectId: string, taskRef: string) => {
+const useTaskByRef = (projectId: string, taskRef: string) => {
   const { data: session, status } = useSession();
 
   const isAuthenticated = status === "authenticated";
@@ -22,9 +22,9 @@ const useTaskById = (projectId: string, taskRef: string) => {
 
   return useQuery({
     queryKey: taskQueryKeys.byId(taskRef),
-    queryFn: () => fetchTaskById(projectId, taskRef, token!),
+    queryFn: () => fetchTaskByRef(projectId, taskRef, token!),
     enabled: isAuthenticated,
   });
 };
 
-export default useTaskById;
+export default useTaskByRef;
