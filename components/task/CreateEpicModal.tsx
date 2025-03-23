@@ -29,6 +29,9 @@ export default function CreateEpicModal({
       startDate: data.startDate,
       dueDate: data.dueDate,
       priority: null,
+      additionalFields: {},
+      approvalUserIds: [],
+      assignees: [],
     });
     onOpenChange(false);
   };

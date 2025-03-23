@@ -12,12 +12,16 @@ import { Button } from "@heroui/button";
 export interface TaskAssigneesFormProps {
   positions: string[];
   members: ProjectMember[];
+  defaultValue: UpdateTaskAssigneesType;
+  isHidePoint: boolean;
   submitFn: (data: UpdateTaskAssigneesType) => void;
 }
 
 export default function TaskAssigneesForm({
   positions,
   members,
+  defaultValue,
+  isHidePoint,
   submitFn,
 }: TaskAssigneesFormProps) {
   const {
@@ -26,7 +30,9 @@ export default function TaskAssigneesForm({
     setValue,
     watch,
     formState: { errors },
-  } = useForm<UpdateTaskAssigneesType>();
+  } = useForm<UpdateTaskAssigneesType>({
+    defaultValues: defaultValue,
+  });
 
   const filterMembersInPosition = (position: string) => {
     return members.filter((member) => member.position === position);
@@ -38,9 +44,9 @@ export default function TaskAssigneesForm({
         {positions.map((position, index) => (
           <div
             key={index}
-            className="grid grid-cols-5 gap-4"
+            className="grid gap-4"
           >
-            <div className="col-span-2">
+            <div>
               <h3>{position}</h3>
             </div>
             <Input
@@ -51,44 +57,51 @@ export default function TaskAssigneesForm({
               defaultValue={position}
               isRequired
               readOnly
-              isInvalid={!!errors?.[index]?.position}
-              errorMessage={errors?.[index]?.position?.message}
-              {...register(`${index}.position`)}
+              isInvalid={!!errors.assignees?.[index]?.position}
+              errorMessage={errors.assignees?.[index]?.position?.message}
+              {...register(`assignees.${index}.position`)}
             />
-            <Autocomplete
-              className="col-span-2"
-              size="sm"
-              placeholder="Select assignee"
-              selectedKey={watch(`${index}.userId`)}
-              onSelectionChange={(key) => setValue(`${index}.userId`, key?.toString() || "")}
-              isInvalid={!!errors?.[index]?.userId}
-              errorMessage={errors?.[index]?.userId?.message}
-            >
-              {filterMembersInPosition(position).map((member) => (
-                <AutocompleteItem
-                  key={member.userId}
-                  textValue={member.displayName}
-                >
-                  <AssigneeItem
-                    name={member.displayName}
-                    profileUrl={member.profileUrl}
+            <div className="grid grid-cols-12 gap-2">
+              <Autocomplete
+                aria-label="Assignee"
+                className={`${isHidePoint ? "col-span-12" : "col-span-8"}`}
+                size="sm"
+                placeholder="Select assignee"
+                selectedKey={watch(`assignees.${index}.userId`)}
+                onSelectionChange={(key) =>
+                  setValue(`assignees.${index}.userId`, key?.toString() || "")
+                }
+                isInvalid={!!errors.assignees?.[index]?.userId}
+                errorMessage={errors.assignees?.[index]?.userId?.message}
+              >
+                {filterMembersInPosition(position).map((member) => (
+                  <AutocompleteItem
                     key={member.userId}
-                  />
-                </AutocompleteItem>
-              ))}
-            </Autocomplete>
-            <Input
-              type="number"
-              size="sm"
-              min={0}
-              max={100}
-              isInvalid={!!errors?.[index]?.point}
-              errorMessage={errors?.[index]?.point?.message}
-              endContent={<span className="text-sm">pts</span>}
-              {...register(`${index}.point`, {
-                valueAsNumber: true,
-              })}
-            />
+                    textValue={member.displayName}
+                  >
+                    <AssigneeItem
+                      name={member.displayName}
+                      profileUrl={member.profileUrl}
+                      key={member.userId}
+                    />
+                  </AutocompleteItem>
+                ))}
+              </Autocomplete>
+              <Input
+                aria-label="Points"
+                className={`col-span-4 ${isHidePoint ? "hidden" : ""}`}
+                type="number"
+                size="sm"
+                min={0}
+                max={100}
+                isInvalid={!!errors.assignees?.[index]?.point}
+                errorMessage={errors.assignees?.[index]?.point?.message}
+                endContent={<span className="text-sm">pts</span>}
+                {...register(`assignees.${index}.point`, {
+                  valueAsNumber: true,
+                })}
+              />
+            </div>
           </div>
         ))}
         <div className="flex justify-end">

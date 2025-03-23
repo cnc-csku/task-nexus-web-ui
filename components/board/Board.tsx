@@ -3,11 +3,8 @@
 import { useState } from "react";
 import TaskFilter from "../task/TaskFilter";
 import { Project, ProjectMember } from "@/interfaces/Project";
-import BoardLanes from "./BoardLanes";
-import useTasksByFilter from "@/hooks/api/task/useTasksByFilter";
-import LoadingScreen from "../ui/LoadingScreen";
 import { Sprint } from "@/interfaces/Sprint";
-import { TaskType } from "@/enums/Task";
+import BoardData from "./BoardData";
 
 export interface BoardProps {
   project: Project;
@@ -31,27 +28,6 @@ export default function Board({
   );
   const [search, setSearch] = useState<string>("");
 
-  const {
-    data: tasks,
-    isPending: isTasksPending,
-    error: tasksError,
-  } = useTasksByFilter(project.id, {
-    positions: selectedPositions.length > 0 ? selectedPositions : null,
-    userIds: selectedPositions.length > 0 ? null : selectedAssignees,
-    searchKeyword: search,
-    statuses: selectedStatuses,
-    sprintIds: currentSprints.map(({ id }) => id),
-    types: [TaskType.Task, TaskType.Bug, TaskType.Story, TaskType.SubTask],
-  });
-
-  if (isTasksPending) {
-    return <LoadingScreen />;
-  }
-
-  if (tasksError) {
-    return <div>Error: {tasksError.message}</div>;
-  }
-
   return (
     <div>
       <TaskFilter
@@ -67,12 +43,14 @@ export default function Board({
         selectedStatuses={selectedStatuses}
         setSelectedStatuses={setSelectedStatuses}
       />
-      <BoardLanes
+      <BoardData
         project={project}
         currentSprints={currentSprints}
-        workflows={project.workflows}
         statuses={statuses}
-        tasks={tasks}
+        search={search}
+        selectedPositions={selectedPositions}
+        selectedAssignees={selectedAssignees}
+        selectedStatuses={selectedStatuses}
       />
     </div>
   );

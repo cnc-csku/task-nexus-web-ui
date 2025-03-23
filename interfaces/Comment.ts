@@ -4,6 +4,8 @@ export interface Comment {
     id: string;
     content: string;
     userId: string;
+    userDisplayName: string;
+    userProfileUrl: string;
     taskId: string;
     createdAt: Date;
     updatedAt: Date;

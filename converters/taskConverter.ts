@@ -1,4 +1,4 @@
-import { FindManyTasksFilter, ListTasksFilter } from "@/interfaces/Task";
+import { FindManyTasksFilter, ListTaskChildrenFilter, ListTasksFilter } from "@/interfaces/Task";
 
 export const convertListTasksFiltertoToQueryParams = (filter: ListTasksFilter): string => {
   const params = new URLSearchParams();
@@ -32,3 +32,11 @@ export const convertFindManyTasksFilterToQueryParams = (filter: FindManyTasksFil
   return params.toString();
 };
 
+export const convertListTaskChildrenFilterToQueryParams = (filter: ListTaskChildrenFilter): string => {
+
+  const params = new URLSearchParams();
+
+  params.append("parentTaskRef", filter.parentTaskRef);
+
+  return params.toString();
+}

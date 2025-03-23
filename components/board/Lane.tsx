@@ -13,6 +13,7 @@ export interface LaneProps {
   availableStatuses: string[];
   isDraggingOver: boolean;
   tasks: Task[];
+  onOpenTaskDetailModal: (task: Task) => void;
 }
 
 export default function Lane({
@@ -22,6 +23,7 @@ export default function Lane({
   isDraggingOver,
   status,
   tasks,
+  onOpenTaskDetailModal,
 }: LaneProps) {
   const { setNodeRef } = useDroppable({
     id: status,
@@ -84,6 +86,7 @@ export default function Lane({
             task={task}
             key={task.id}
             subTasks={subTasksMap.get(task.id) || []}
+            onOpenTaskDetailModal={onOpenTaskDetailModal}
           />
         ))
       )}

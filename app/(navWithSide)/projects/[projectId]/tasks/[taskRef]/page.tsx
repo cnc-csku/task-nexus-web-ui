@@ -7,7 +7,7 @@ import useAllProjectMembers from "@/hooks/api/project/useAllProjectMembers";
 import useFindProjectById from "@/hooks/api/project/useFindProjectById";
 import useSprintsByProjectId from "@/hooks/api/sprint/useSprintsByProjectId";
 import useEpics from "@/hooks/api/task/useEpics";
-import useTaskByRef from "@/hooks/api/task/useTaskDetailById";
+import useTaskByRef from "@/hooks/api/task/useTaskDetailByRef";
 import { useParams } from "next/navigation";
 
 export default function TaskDetailPage() {

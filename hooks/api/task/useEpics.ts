@@ -11,6 +11,19 @@ const fetchEpics = async (token: string, projectId: string) => {
     accessTokenHeader(token)
   );
 
+  response.data.forEach((task) => {
+    if (task.dueDate) {
+      task.dueDate = new Date(task.dueDate);
+    }
+
+    if (task.startDate) {
+      task.startDate = new Date(task.startDate);
+    }
+
+    task.createdAt = new Date(task.createdAt);
+    task.updatedAt = new Date(task.updatedAt);
+  });
+
   return response.data;
 };
 

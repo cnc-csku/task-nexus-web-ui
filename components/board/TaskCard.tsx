@@ -14,9 +14,15 @@ export interface TaskCardProps {
   draggingTaskRef: string | null;
   task: Task;
   subTasks?: Task[];
+  onOpenTaskDetailModal: (task: Task) => void;
 }
 
-export default function TaskCard({ draggingTaskRef, task, subTasks }: TaskCardProps) {
+export default function TaskCard({
+  draggingTaskRef,
+  task,
+  subTasks,
+  onOpenTaskDetailModal,
+}: TaskCardProps) {
   const { attributes, listeners, setNodeRef, transform, setActivatorNodeRef } = useDraggable({
     id: task.taskRef,
     data: {
@@ -37,8 +43,9 @@ export default function TaskCard({ draggingTaskRef, task, subTasks }: TaskCardPr
           isDragging ? "border-dashed border-gray-700 z-50" : ""
         }`}
         ref={setNodeRef}
-        {...listeners}
+        onClick={() => onOpenTaskDetailModal(task)}
         {...attributes}
+        {...listeners}
         style={style}
       >
         <div className="flex items-center gap-2">
@@ -101,6 +108,7 @@ export default function TaskCard({ draggingTaskRef, task, subTasks }: TaskCardPr
               draggingTaskRef={draggingTaskRef}
               task={subTask}
               key={subTask.id}
+              onOpenTaskDetailModal={onOpenTaskDetailModal}
             />
           ))}
         </div>
