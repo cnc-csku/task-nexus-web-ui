@@ -1,4 +1,4 @@
-import useTaskByRef from "@/hooks/api/task/useTaskDetailById";
+import useTaskByRef from "@/hooks/api/task/useTaskDetailByRef";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { useEffect } from "react";
 import LoadingScreen from "../ui/LoadingScreen";

@@ -9,7 +9,14 @@ const taskQueryKeys = {
     projectId,
     filter,
   ],
-  many: (projectId: string, taskRefs: string[]) => [...taskQueryKeys.all, "project", projectId,"many", taskRefs],
+  many: (projectId: string, taskRefs: string[]) => [...taskQueryKeys.all, "project", projectId, "many", taskRefs],
+  children: (projectId: string, parentTaskRef: string) => [
+    ...taskQueryKeys.all,
+    "project",
+    projectId,
+    "children",
+    parentTaskRef,
+  ],
 };
 
 export default taskQueryKeys;

@@ -1,3 +1,8 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
+
 /**
  * Formats a date as "MMM DD YYYY" (e.g., "Jan 01 2023")
  * @param date - The date to format (Date object, timestamp number, or date string)
@@ -26,4 +31,8 @@ export function formatDateAsMMMDDYYYY(date: Date | string | number): string {
 
 export function browserTimezone(): string {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
+export function timeAgo(timestamp: Date | number): string {
+  return dayjs(timestamp).fromNow();
 }

@@ -7,7 +7,7 @@ export interface TaskCommentListProps {
 
 export default function TaskCommentList({ comments }: TaskCommentListProps) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {comments.map((comment) => (
         <TaskCommentItem
           key={comment.id}

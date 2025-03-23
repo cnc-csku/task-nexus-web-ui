@@ -11,6 +11,17 @@ const fetchTaskByRef = async (projectId: string, taskRef: string, token: string)
     accessTokenHeader(token)
   );
 
+  if (data.dueDate) {
+    data.dueDate = new Date(data.dueDate);
+  }
+
+  if (data.startDate) {
+    data.startDate = new Date(data.startDate);
+  }
+
+  data.createdAt = new Date(data.createdAt);
+  data.updatedAt = new Date(data.updatedAt);
+
   return data;
 };
 

@@ -1,6 +1,11 @@
 import { TaskPriority, TaskType } from "@/enums/Task";
 import { z } from "zod";
 
+export interface KeyValue {
+  key: string;
+  value: any;
+}
+
 export interface Task {
   id: string;
   taskRef: string;
@@ -16,12 +21,12 @@ export interface Task {
   childrenPoint: number;
   hasChildren: boolean;
   sprint: TaskSprint | null;
-  attributes: any[];
-  startDate: string | null;
-  dueDate: string | null;
-  createdAt: string;
+  attributes: KeyValue[];
+  startDate: Date | null;
+  dueDate: Date | null;
+  createdAt: Date;
   createdBy: string;
-  updatedAt: string;
+  updatedAt: Date;
   updatedBy: string;
 }
 
@@ -29,6 +34,9 @@ export interface TaskApproval {
   isApproved: boolean;
   reason: string;
   userId: string;
+  email: string;
+  profileUrl: string;
+  displayName: string;
 }
 
 export interface TaskAssignee {
@@ -125,16 +133,17 @@ export interface FindManyTasksFilter {
   taskRefs: string[];
 }
 
-export const UpdateTaskAssigneesSchema = z.array(
-  z.object({
-    position: z.string().nonempty(),
-    userId: z.string().nullable(),
-    point: z.number().min(0).max(100).nullable(),
-  })
-);
+export const UpdateTaskAssigneesSchema = z.object({
+  assignees: z.array(
+    z.object({
+      position: z.string().nullable(),
+      userId: z.string().nullable(),
+      point: z.number().min(0).max(100).nullable(),
+    })
+  ),
+})
 
 export type UpdateTaskAssigneesType = z.infer<typeof UpdateTaskAssigneesSchema>;
-
 
 export const UpdateTaskDetailSchema = z.object({
   title: z.string().nonempty(),
@@ -145,3 +154,13 @@ export const UpdateTaskDetailSchema = z.object({
 });
 
 export type UpdateTaskDetailType = z.infer<typeof UpdateTaskDetailSchema>;
+
+export interface ListTaskChildrenFilter {
+  parentTaskRef: string;
+}
+
+export const ApproveTaskSchema = z.object({
+  reason: z.string().nonempty(),
+});
+
+export type ApproveTaskType = z.infer<typeof ApproveTaskSchema>;

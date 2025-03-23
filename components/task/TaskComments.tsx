@@ -33,14 +33,15 @@ export default function TaskComments({ projectId, task }: TaskCommentsProps) {
 
   const handleCreateTaskComment = async (data: CreateTaskCommentType) => {
     await createTaskComment(data);
-  }
+  };
 
   return (
     <div className="space-y-5">
       <div>
         <TaskCommentList comments={commments!} />
       </div>
-      <div>
+      <div className="space-y-2">
+        <div className="text-gray-700">Add a comment</div>
         <CreateTaskComment
           projectId={projectId}
           task={task}

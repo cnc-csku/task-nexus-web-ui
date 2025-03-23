@@ -177,9 +177,9 @@ importers:
       axios:
         specifier: ^1.8.4
         version: 1.8.4
-      chart.js:
-        specifier: ^4.4.8
-        version: 4.4.8
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       dompurify:
         specifier: ^3.2.4
         version: 3.2.4
@@ -210,6 +210,9 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.0.0)
+      relative-time:
+        specifier: ^1.0.0
+        version: 1.0.0
       shiki:
         specifier: 3.2.1
         version: 3.2.1
@@ -2290,6 +2293,9 @@ packages:
   classcat@5.0.5:
     resolution: {integrity: sha512-JhZUT7JFcQy/EzW605k/ktHtncoo9vnyW/2GspNYwFlN1C/WmjuV/xtS04e9SOkL2sTdw0VAZ2UGCcQ9lR6p6w==}
 
+  cldrjs@0.5.5:
+    resolution: {integrity: sha512-KDwzwbmLIPfCgd8JERVDpQKrUUM1U4KpFJJg2IROv89rF172lLufoJnqJ/Wea6fXL5bO6WjuLMzY8V52UWPvkA==}
+
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
 
@@ -2404,6 +2410,9 @@ packages:
   d3-zoom@3.0.0:
     resolution: {integrity: sha512-b8AmV3kfQaqWAuacbPuNbL6vahnOJflOhexLzMMNLga62+/nh0JzvJ0aO/5a5MVgUFGS7Hu1P9P03o3fJkDCyw==}
     engines: {node: '>=12'}
+
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debug@4.4.0:
     resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
@@ -2594,6 +2603,9 @@ packages:
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
     hasBin: true
+
+  globalize@1.7.0:
+    resolution: {integrity: sha512-faR46vTIbFCeAemyuc9E6/d7Wrx9k2ae2L60UhakztFg6VuE42gENVJNuPFtt7Sdjrk9m2w8+py7Jj+JTNy59w==}
 
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
@@ -3513,6 +3525,9 @@ packages:
   rehype-stringify@9.0.4:
     resolution: {integrity: sha512-Uk5xu1YKdqobe5XpSskwPvo1XeHUUucWEQSl8hTrXt5selvca1e8K1EZ37E6YoZ4BT8BCqCdVfQW7OfHfthtVQ==}
 
+  relative-time@1.0.0:
+    resolution: {integrity: sha512-nmG1az4PhB8JyMmywuyNHaaO4PeTCB8OoNxuaBBV1Wl8AH2QgjYEmL16iI4iRRx2PedA8il613Cqcm5phvvteg==}
+
   remark-gfm@3.0.1:
     resolution: {integrity: sha512-lEFDoi2PICJyNrACFOfDD3JlLkuSbOa5Wd8EPt06HUdptv8Gn0bxYTdbU/XXQ3swAPkEaGxxPN9cbnMHvVu1Ig==}
 
@@ -3895,6 +3910,9 @@ packages:
 
   zod@3.24.2:
     resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
+  zoned-date-time@1.1.0:
+    resolution: {integrity: sha512-MhjAUwM1ABOmE9J5SzjNnoXQL83NDaZbRYsZtVTTIjKxXeGJ70GZNEC/NJAyhYiyFiteu24N8Q6gaGhOI/A51A==}
 
   zustand@4.5.6:
     resolution: {integrity: sha512-ibr/n1hBzLLj5Y+yUcU7dYw8p6WnIVzdJbnX+1YpaScvZVF2ziugqHs+LAmHw4lWO9c/zRj+K1ncgWDQuthEdQ==}
@@ -6854,6 +6872,8 @@ snapshots:
 
   classcat@5.0.5: {}
 
+  cldrjs@0.5.5: {}
+
   client-only@0.0.1: {}
 
   clsx@1.2.1: {}
@@ -6960,6 +6980,8 @@ snapshots:
       d3-interpolate: 3.0.1
       d3-selection: 3.0.0
       d3-transition: 3.0.1(d3-selection@3.0.0)
+
+  dayjs@1.11.13: {}
 
   debug@4.4.0:
     dependencies:
@@ -7128,6 +7150,10 @@ snapshots:
       minipass: 7.1.2
       package-json-from-dist: 1.0.1
       path-scurry: 1.11.1
+
+  globalize@1.7.0:
+    dependencies:
+      cldrjs: 0.5.5
 
   gopd@1.2.0: {}
 
@@ -8537,6 +8563,11 @@ snapshots:
       hast-util-to-html: 8.0.4
       unified: 10.1.2
 
+  relative-time@1.0.0:
+    dependencies:
+      globalize: 1.7.0
+      zoned-date-time: 1.1.0
+
   remark-gfm@3.0.1:
     dependencies:
       '@types/mdast': 3.0.15
@@ -9013,6 +9044,8 @@ snapshots:
       lib0: 0.2.99
 
   zod@3.24.2: {}
+
+  zoned-date-time@1.1.0: {}
 
   zustand@4.5.6(@types/react@19.0.12)(immer@10.1.1)(react@19.0.0):
     dependencies:

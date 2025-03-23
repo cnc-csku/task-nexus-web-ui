@@ -11,6 +11,10 @@ const fetchCommentByTaskRef = async (projectId: string, taskRef: string, token: 
         accessTokenHeader(token)
     );
 
+    data.forEach((comment) => {
+        comment.createdAt = new Date(comment.createdAt);
+    });
+
     return data;
 };
 
