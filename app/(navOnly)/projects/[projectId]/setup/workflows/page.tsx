@@ -48,7 +48,7 @@ export default function SetupProjectWorkflows() {
       >
         <div className="flex items-center gap-2">
           <Divider className="inline-block w-5" />
-          <h3>Step 3</h3>
+          <h3>Step 4</h3>
         </div>
         <h1 className="text-2xl mb-5">Setup Project Workflow</h1>
       </motion.div>
