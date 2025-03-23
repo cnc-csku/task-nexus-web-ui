@@ -1,5 +1,6 @@
 "use client";
 
+import { TaskType } from "@/enums/Task";
 import TaskCard from "./TaskCard";
 import { Task } from "@/interfaces/Task";
 import { useDroppable } from "@dnd-kit/core";
@@ -28,9 +29,33 @@ export default function Lane({
 
   const isAvailableStatus = availableStatuses.includes(status);
 
+  const level1TaskTypes = [TaskType.Task, TaskType.Bug, TaskType.Story];
+  const level2TaskTypes = [TaskType.SubTask];
+
+  const level1Tasks = tasks.filter((task) => level1TaskTypes.includes(task.type));
+  const level2Tasks = tasks.filter((task) => level2TaskTypes.includes(task.type));
+
+  const subTasksMap = new Map<string, Task[]>();
+
+  level2Tasks.forEach((subTask) => {
+    if (!subTask.parentId) {
+      return;
+    }
+
+    const parentSubTaskId = subTask.parentId;
+    if (level1Tasks.find((level1Task) => level1Task.id === parentSubTaskId)) {
+      const subTasks = subTasksMap.get(parentSubTaskId) || [];
+      subTasks.push(subTask);
+      subTasksMap.set(parentSubTaskId, subTasks);
+      return;
+    }
+    
+    level1Tasks.push(subTask);
+  });
+
   return (
     <div
-      className={`flex flex-col gap-2 p-3 rounded-lg bg-gray-50 ${
+      className={`flex flex-col gap-4 p-3 rounded-lg bg-gray-50 ${
         isDraggingOver && "border border-dashed border-gray-700"
       }`}
       ref={setNodeRef}
@@ -53,11 +78,12 @@ export default function Lane({
           </div>
         </div>
       ) : (
-        tasks.map((task) => (
+        level1Tasks.map((task) => (
           <TaskCard
             draggingTaskRef={draggingTaskRef}
             task={task}
             key={task.id}
+            subTasks={subTasksMap.get(task.id) || []}
           />
         ))
       )}

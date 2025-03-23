@@ -8,15 +8,14 @@ import { Tooltip } from "@heroui/tooltip";
 import { priorityIcons } from "../icons/task";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import SubTaskCard from "./SubTaskCard";
 
-export interface TaskCardProps {
+export interface SubTaskCardProps {
   draggingTaskRef: string | null;
   task: Task;
   subTasks?: Task[];
 }
 
-export default function TaskCard({ draggingTaskRef, task, subTasks }: TaskCardProps) {
+export default function SubTaskCard({ draggingTaskRef, task, subTasks }: SubTaskCardProps) {
   const { attributes, listeners, setNodeRef, transform, setActivatorNodeRef } = useDraggable({
     id: task.taskRef,
     data: {
@@ -94,17 +93,6 @@ export default function TaskCard({ draggingTaskRef, task, subTasks }: TaskCardPr
           </div>
         </div>
       </div>
-      {subTasks && subTasks.length > 0 && (
-        <div className="px-2 py-2 bg-white border-b border-s border-e rounded-b-lg">
-          {subTasks?.map((subTask) => (
-            <SubTaskCard
-              draggingTaskRef={draggingTaskRef}
-              task={subTask}
-              key={subTask.id}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
