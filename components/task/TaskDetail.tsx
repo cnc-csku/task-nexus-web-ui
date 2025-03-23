@@ -13,7 +13,7 @@ import ChangeTaskStatusSelect from "./ChangeTaskStatusSelect";
 import TaskAssigneesForm from "./TaskAssigneesForm";
 import { getTaskLevel } from "@/utils/task";
 import { Sprint } from "@/interfaces/Sprint";
-import { TaskLevel } from "@/enums/Task";
+import { TaskLevel, TaskType } from "@/enums/Task";
 import ChangeTaskEpicSelect from "./ChangeTaskEpicSelect";
 import EditableDescription from "./EditableDescription";
 import TaskComments from "./TaskComments";
@@ -21,7 +21,7 @@ import ChageTaskSprintSelect from "./ChangeTaskSprintSelect";
 import { DatePicker } from "@heroui/date-picker";
 import { fromDate, today } from "@internationalized/date";
 import { browserTimezone } from "@/utils/timeUtils";
-import { IoMdCheckmark, IoMdClose } from "react-icons/io";
+import { IoMdAdd, IoMdAddCircleOutline, IoMdCheckmark, IoMdClose } from "react-icons/io";
 import CustomAttributeEditor from "./CustomAttributesEditor";
 import ChildrenListDetail from "./ChildrenListDetail";
 import useUpdateTaskAssignees from "@/hooks/api/task/useUpdateTaskAssignees";
@@ -36,6 +36,10 @@ import { useDisclosure } from "@heroui/modal";
 import ApproveReasonModal from "./ApproveReasonModal";
 import { MdChecklist } from "react-icons/md";
 import ApproveModal from "./ApproveModal";
+import CreateTaskModal from "./CreateTaskModal";
+import useTasksByFilter from "@/hooks/api/task/useTasksByFilter";
+import ChangeTaskPrioritySelect from "./ChangeTaskPrioritySelect";
+import ChangeTaskParentSelect from "./ChangeTaskParentSelect";
 
 export interface TaskDetailProps {
   project: Project;
@@ -60,6 +64,12 @@ export default function TaskDetail({ project, task, members, sprints, allEpics }
     onOpenChange: onApproveReasonOpenChange,
   } = useDisclosure();
 
+  const {
+    isOpen: isCreateChildOpen,
+    onOpen: onCreateChildOpen,
+    onOpenChange: onCreateChildOpenChange,
+  } = useDisclosure();
+
   const { mutateAsync: mutateTaskTitleAsync, isPending: isUpdateTitlePending } = useUpdateTaskTitle(
     project.id,
     task.taskRef
@@ -67,6 +77,21 @@ export default function TaskDetail({ project, task, members, sprints, allEpics }
 
   const { mutateAsync: mutateTaskAssigneesAsync, isPending: isUpdateAssigneesPending } =
     useUpdateTaskAssignees(project.id, task.taskRef);
+
+  // All tasks
+  const {
+    data: allTasks,
+    isPending: isAllTasksPending,
+    error: allTasksError,
+  } = useTasksByFilter(project.id, {
+    positions: null,
+    userIds: null,
+    searchKeyword: "",
+    statuses: project.workflows
+      .filter((workflow) => !workflow.isDone)
+      .map((workflow) => workflow.status),
+    types: [TaskType.Task, TaskType.Bug, TaskType.Story],
+  });
 
   const { data: profile, status } = useSession();
 
@@ -128,8 +153,12 @@ export default function TaskDetail({ project, task, members, sprints, allEpics }
     return defaultAssignees;
   };
 
-  if (status === "loading") {
+  if (status === "loading" || isAllTasksPending) {
     return <LoadingScreen />;
+  }
+
+  if (allTasksError) {
+    return <div>Error: {allTasksError.message}</div>;
   }
 
   const userId = profile?.user?.id as string;
@@ -138,6 +167,15 @@ export default function TaskDetail({ project, task, members, sprints, allEpics }
 
   return (
     <>
+      <CreateTaskModal
+        isOpen={isCreateChildOpen}
+        onOpenChange={onCreateChildOpenChange}
+        projectId={project.id}
+        parents={allTasks}
+        taskLevel={TaskLevel.Level2}
+        defaultParentId={task.id}
+        defaultSprintId={task.sprint?.currentSprintId ?? null}
+      />
       <div className="container mx-auto space-y-5">
         <div className="flex items-center gap-1">
           <TaskBadge
@@ -180,22 +218,26 @@ export default function TaskDetail({ project, task, members, sprints, allEpics }
                 projectId={project.id}
               />
             </div>
-            {taskLevel !== TaskLevel.Level2 ? (
+            {taskLevel !== TaskLevel.Level2 && (
               <div className="border border-gray-200 rounded-lg px-4 py-4 grid gap-6">
-                <div className="font-medium">Children</div>
+                <div className="flex justify-between items-center gap-2">
+                  <div className="font-medium">Children</div>
+                  <div>
+                    <Button
+                      type="button"
+                      color="primary"
+                      size="sm"
+                      startContent={<IoMdAdd />}
+                      onPress={onCreateChildOpen}
+                    >
+                      Create Child
+                    </Button>
+                  </div>
+                </div>
                 <ChildrenListDetail
                   project={project}
                   taskRef={task.taskRef}
                 />
-              </div>
-            ) : (
-              // Parent task
-              <div className="border border-gray-200 rounded-lg px-4 py-4 grid gap-6">
-                <div className="font-medium">Parent</div>
-                {/* <ParentList
-                      taskId={task.parentId!}
-                      projectId={project.id}
-                    /> */}
               </div>
             )}
             <div className="border border-gray-200 rounded-lg px-4 py-2 space-y-5">
@@ -233,12 +275,20 @@ export default function TaskDetail({ project, task, members, sprints, allEpics }
                       projectId={project.id}
                     />
                   ) : taskLevel === TaskLevel.Level2 ? (
-                    <div></div>
+                    <ChangeTaskParentSelect
+                      projectId={project.id}
+                      parents={allTasks}
+                      task={task}
+                    />
                   ) : null}
                 </div>
               </div>
             </div>
-            <div className="border border-gray-200 rounded-lg px-4 py-4 grid gap-6">
+            <div
+              className={`border border-gray-200 rounded-lg px-4 py-4 grid gap-6 ${
+                task.approvals.length === 0 ? "hidden" : ""
+              }`}
+            >
               <div className="space-y-2">
                 <div>Approval</div>
                 {task.approvals.map((approval) => (
@@ -335,11 +385,9 @@ export default function TaskDetail({ project, task, members, sprints, allEpics }
                 isHidePoint={task.hasChildren}
               />
               {task.hasChildren && (
-                <div className="grid gap-2 items-center grid-cols-5">
-                  <div className="col-span-2">Children Point </div>
-                  <div className="col-span-3">
-                    <Chip color="primary">{task.childrenPoint}</Chip> pts.
-                  </div>
+                <div className="flex gap-2 items-center">
+                  <div>Children Point </div>
+                  <Chip color="primary">{task.childrenPoint}</Chip> pts.
                 </div>
               )}
             </div>
@@ -352,6 +400,15 @@ export default function TaskDetail({ project, task, members, sprints, allEpics }
                     taskRef={task.taskRef}
                     currentSprint={task.sprint?.currentSprintId!}
                     allSprints={sprints}
+                  />
+                </div>
+              </div>
+              <div className="grid gap-2 items-center grid-cols-5">
+                <div className="col-span-2">Priority</div>
+                <div className="col-span-3">
+                  <ChangeTaskPrioritySelect
+                    projectId={project.id}
+                    task={task}
                   />
                 </div>
               </div>

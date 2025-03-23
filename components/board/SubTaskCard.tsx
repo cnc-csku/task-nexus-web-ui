@@ -12,10 +12,14 @@ import { CSS } from "@dnd-kit/utilities";
 export interface SubTaskCardProps {
   draggingTaskRef: string | null;
   task: Task;
-  subTasks?: Task[];
+  onOpenTaskDetailModal: (task: Task) => void;
 }
 
-export default function SubTaskCard({ draggingTaskRef, task, subTasks }: SubTaskCardProps) {
+export default function SubTaskCard({
+  draggingTaskRef,
+  task,
+  onOpenTaskDetailModal,
+}: SubTaskCardProps) {
   const { attributes, listeners, setNodeRef, transform, setActivatorNodeRef } = useDraggable({
     id: task.taskRef,
     data: {
@@ -35,6 +39,7 @@ export default function SubTaskCard({ draggingTaskRef, task, subTasks }: SubTask
         className={`shadow-none border-1 border-gray-300 px-3 py-3 rounded-lg bg-white grid gap-4 transition-colors ${
           isDragging ? "border-dashed border-gray-700 z-50" : ""
         }`}
+        onClick={() => onOpenTaskDetailModal(task)}
         ref={setNodeRef}
         {...listeners}
         {...attributes}

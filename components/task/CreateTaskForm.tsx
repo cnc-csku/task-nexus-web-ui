@@ -67,14 +67,14 @@ export default function CreateTaskForm({
         },
       ]),
       sprintId: defaultSprintId ?? null,
-      parentId: defaultParentId ?? null,
+      parentId: defaultParentId,
     },
   });
 
   const availableTaskTypes =
     taskLevel === TaskLevel.Level0
       ? [TaskType.Epic]
-      : TaskLevel.Level1
+      : taskLevel === TaskLevel.Level1
       ? [TaskType.Story, TaskType.Task, TaskType.Bug]
       : [TaskType.SubTask];
 
@@ -132,19 +132,26 @@ export default function CreateTaskForm({
           label="Parent"
           size="sm"
           selectedKey={watch("parentId")}
-          onSelectionChange={(key) => setValue("parentId", key?.toString() || "")}
+          onSelectionChange={(key) => {
+            setValue("parentId", key?.toString() || "");
+          }}
+          isRequired={taskLevel === TaskLevel.Level2}
+          isReadOnly={taskLevel === TaskLevel.Level2}
           isInvalid={!!errors.parentId}
           errorMessage={errors.parentId?.message}
         >
-          {parents.map((parent) => (
-            <AutocompleteItem
-              key={parent.id}
-              textValue={parent.title}
-              startContent={taskIcons[parent.type]}
+          {parents.map((parent) => {
+            console.log(parent);
+            return (
+              <AutocompleteItem
+                key={parent.id}
+                textValue={parent.title}
+                startContent={taskIcons[parent.type]}
             >
               {parent.title}
-            </AutocompleteItem>
-          ))}
+              </AutocompleteItem>
+            );
+          })}
         </Autocomplete>
         <Select
           label="Priority"

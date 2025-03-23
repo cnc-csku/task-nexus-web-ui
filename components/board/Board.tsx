@@ -3,11 +3,7 @@
 import { useState } from "react";
 import TaskFilter from "../task/TaskFilter";
 import { Project, ProjectMember } from "@/interfaces/Project";
-import BoardLanes from "./BoardLanes";
-import useTasksByFilter from "@/hooks/api/task/useTasksByFilter";
-import LoadingScreen from "../ui/LoadingScreen";
 import { Sprint } from "@/interfaces/Sprint";
-import { TaskType } from "@/enums/Task";
 import BoardData from "./BoardData";
 
 export interface BoardProps {

@@ -67,6 +67,7 @@ export default function ChildrenListItem({ projectId, task }: ChildrenListItemPr
               <Tooltip
                 key={assignee.userId}
                 showArrow={true}
+                closeDelay={0}
                 content={
                   <div>
                     <div className="text-center font-semibold">{assignee.position}</div>

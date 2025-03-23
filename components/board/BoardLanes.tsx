@@ -21,6 +21,7 @@ export interface BoardLanesProps {
   statuses: string[];
   workflows: Workflow[];
   currentSprints: Sprint[];
+  onOpenTaskDetailModal: (task: Task) => void;
 }
 
 export default function BoardLanes({
@@ -29,6 +30,7 @@ export default function BoardLanes({
   statuses,
   workflows,
   currentSprints,
+  onOpenTaskDetailModal,
 }: BoardLanesProps) {
   const [draggingTaskRef, setDraggingTaskRef] = useState<string | null>(null);
   const [draggingTaskStatus, setDraggingTaskStatus] = useState<string | null>(null);
@@ -160,6 +162,7 @@ export default function BoardLanes({
                   tasks={tasksForStatus}
                   isDraggingOver={draggingOverStatus === status}
                   availableStatuses={availableStatuses}
+                  onOpenTaskDetailModal={onOpenTaskDetailModal}
                 />
               );
             })}
