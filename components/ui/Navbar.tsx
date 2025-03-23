@@ -7,11 +7,14 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { Button } from "@heroui/button";
 import { Badge } from "@heroui/badge";
 import { MdMenu } from "react-icons/md";
+import { signOut, useSession } from "next-auth/react";
 export interface NavbarProps {
   sideBarToggle?: () => void;
 }
 
 export default function Navbar({ sideBarToggle }: NavbarProps) {
+  const { data: session, status } = useSession();
+
   return (
     <NextNav
       maxWidth="full"
@@ -29,7 +32,7 @@ export default function Navbar({ sideBarToggle }: NavbarProps) {
         </NavbarContent>
       )}
       <NavbarContent justify="end">
-        <NavbarItem>
+        {/* <NavbarItem>
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
               <Button
@@ -57,7 +60,7 @@ export default function Navbar({ sideBarToggle }: NavbarProps) {
               <DropdownItem key="notification3">Notification 3</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-        </NavbarItem>
+        </NavbarItem> */}
         <NavbarItem>
           <Dropdown placement="bottom-end">
             <DropdownTrigger>
@@ -65,7 +68,7 @@ export default function Navbar({ sideBarToggle }: NavbarProps) {
                 as="button"
                 className="transition-transform"
                 size="sm"
-                src="https://avatars.githubusercontent.com/u/86820985?v=4"
+                src={session?.user?.profileUrl || ""}
               />
             </DropdownTrigger>
             <DropdownMenu
@@ -79,21 +82,23 @@ export default function Navbar({ sideBarToggle }: NavbarProps) {
                 <User
                   avatarProps={{
                     size: "sm",
-                    src: "https://avatars.githubusercontent.com/u/86820985?v=4",
+                    src: session?.user?.profileUrl || "",
                   }}
                   classNames={{
                     name: "text-default-600",
                     description: "text-default-500",
                   }}
-                  name="Tanaroeg O-Charoen"
-                  description="tanaroeg.o@ku.th"
+                  name={session?.user?.displayName || ""}
+                  description={session?.user?.email || ""}
                 />
               </DropdownItem>
-              <DropdownItem key="editProfile">Edit Profile</DropdownItem>
-              <DropdownItem key="settings">My Settings</DropdownItem>
               <DropdownItem
                 key="logout"
                 color="danger"
+                onPress={() => signOut({
+                  redirect: true,
+                  callbackUrl: "/auth/login",
+                })}
               >
                 Log Out
               </DropdownItem>

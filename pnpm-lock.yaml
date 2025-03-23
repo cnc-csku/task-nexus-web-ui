@@ -177,6 +177,9 @@ importers:
       axios:
         specifier: ^1.8.4
         version: 1.8.4
+      chart.js:
+        specifier: ^4.4.8
+        version: 4.4.8
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13

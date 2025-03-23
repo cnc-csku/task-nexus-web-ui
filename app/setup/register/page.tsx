@@ -1,23 +1,20 @@
 "use client";
 
 import { Divider } from "@heroui/divider";
-import RegisterForm from "../../../components/auth/RegisterForm";
+import RegisterForm from "@/components/auth/RegisterForm";
 import { UserRegisterFormType } from "@/interfaces/User";
 import { motion } from "framer-motion";
 import useSetupUser from "@/hooks/api/setup/useSetupUser";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function SetupRegisterPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const setupUserMutation = useSetupUser();
+  const { mutateAsync: setupUser, isPending } = useSetupUser();
 
   const onRegister = async (data: UserRegisterFormType) => {
-    setIsLoading(true);
-    const registerResponse = await setupUserMutation.mutateAsync(data);
+    const registerResponse = await setupUser(data);
 
     if (!registerResponse) {
       return;
@@ -33,7 +30,6 @@ export default function SetupRegisterPage() {
       router.push("/setup/workspace");
       return;
     }
-    setIsLoading(false);
   };
   return (
     <div className="lg:w-[500px]">
@@ -56,7 +52,7 @@ export default function SetupRegisterPage() {
       >
         <RegisterForm
           onRegister={onRegister}
-          isLoading={isLoading}
+          isLoading={isPending}
         />
       </motion.div>
     </div>

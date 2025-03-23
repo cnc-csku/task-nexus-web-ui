@@ -1,8 +1,9 @@
-import { Workspace } from "@/interfaces/Workspace";
+import { MyWorkspace } from "@/interfaces/Workspace";
 import WorkspaceItem from "./WorkspaceItem";
+import { WorkspaceMemberRole } from "@/enums/Workspace";
 
 interface WorkspaceListProps {
-  workspaces: Workspace[];
+  workspaces: MyWorkspace[];
 }
 
 export default function WorkspaceList({ workspaces }: WorkspaceListProps) {
@@ -13,6 +14,10 @@ export default function WorkspaceList({ workspaces }: WorkspaceListProps) {
           <WorkspaceItem
             key={workspace.id}
             workspace={workspace}
+            showSettingsButton={
+              workspace.role === WorkspaceMemberRole.Owner ||
+              workspace.role === WorkspaceMemberRole.Moderator
+            }
           />
         );
       })}
