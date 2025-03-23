@@ -3,7 +3,7 @@
 import { Modal, ModalContent, ModalHeader, ModalBody } from "@heroui/modal";
 import CreateTaskForm from "./CreateTaskForm";
 import { CreateTaskRequestType, Task } from "@/interfaces/Task";
-import { TaskLevel, TaskType } from "@/enums/Task";
+import { TaskLevel } from "@/enums/Task";
 import useCreateTask from "@/hooks/api/task/useCreateTask";
 import { toast } from "sonner";
 import { getApiErrorMessage } from "@/utils/errutils";
@@ -83,7 +83,6 @@ export default function CreateTaskModal({
       await mutateAsync(data);
 
       onOpenChange(false);
-      console.log(data);
 
       toast.success("Task created successfully");
     } catch (error) {
