@@ -19,6 +19,7 @@ import ChangeTaskEpicSelect from "./ChangeTaskEpicSelect";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import TaskBadge from "./TaskBadge";
+import { TiFlowChildren } from "react-icons/ti";
 
 export interface TaskListItemProps {
   projectId: string;
@@ -220,6 +221,14 @@ export default function TaskListItem({
                 </Badge>
               ))}
           </div>
+          {task.hasChildren && (
+            <Tooltip
+              content="Has sub-tasks"
+              placement="top"
+            >
+              <TiFlowChildren size={23} className="mx-1" />
+            </Tooltip>
+          )}
           <div className="w-36">
             <ChangeTaskEpicSelect
               currentEpic={task.parentId}
