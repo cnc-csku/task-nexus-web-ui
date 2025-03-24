@@ -15,7 +15,7 @@ export default function InviteWorkspaceMember({ workspaceId }: InviteWorkspaceMe
   const {
     register,
     handleSubmit,
-    resetField,
+    reset,
     formState: { errors },
   } = useForm<InviteWorkspaceMemberFormType>();
   const { mutateAsync: inviteWorkspaceMember, isPending } = useInviteWorkspaceMember();
@@ -24,11 +24,10 @@ export default function InviteWorkspaceMember({ workspaceId }: InviteWorkspaceMe
     try {
       await inviteWorkspaceMember(data);
       toast.success("Invitation sent successfully");
-      resetField("inviteeEmail");
-      resetField("role");
     } catch (error) {
-      toast.error(getApiErrorMessage(error));
+        toast.error(getApiErrorMessage(error));
     }
+    reset();
   };
 
   return (
