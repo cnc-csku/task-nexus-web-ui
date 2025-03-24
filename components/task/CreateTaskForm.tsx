@@ -19,6 +19,12 @@ import ApprovalFields from "./ApprovalFields";
 import { Autocomplete, AutocompleteItem } from "@heroui/autocomplete";
 import { Sprint } from "@/interfaces/Sprint";
 import { browserTimezone } from "@/utils/timeUtils";
+import useGenerateTaskDescription from "@/hooks/api/task/generateTaskDescription";
+import { useEffect, useState } from "react";
+import axios from "@/lib/axios/axios.config";
+import { accessTokenHeader } from "@/utils/apiUtils";
+import { useSession } from "next-auth/react";
+import LoadingScreen from "../ui/LoadingScreen";
 
 export interface CreateTaskFormProps {
   parents: Task[];
@@ -71,6 +77,12 @@ export default function CreateTaskForm({
     },
   });
 
+  const [isGeneratingDescription, setIsGeneratingDescription] = useState<boolean>(false);
+  const [generatedDescription, setGeneratedDescription] = useState<any | null>(null);
+
+  const { data: session, status } = useSession();
+  const token = session?.user?.token;
+
   const availableTaskTypes =
     taskLevel === TaskLevel.Level0
       ? [TaskType.Epic]
@@ -78,7 +90,26 @@ export default function CreateTaskForm({
       ? [TaskType.Story, TaskType.Task, TaskType.Bug]
       : [TaskType.SubTask];
 
-  const editor = useCreateBlockNote();
+  const editor = useCreateBlockNote({
+    initialContent: generatedDescription !== null ? generatedDescription : JSON.parse(watch("description") || "[]"),
+  });
+
+  if (status === "loading") {
+    return <LoadingScreen />;
+  }
+
+  const generateDescription = async (title: string) => {
+    setIsGeneratingDescription(true);
+    const response = await axios.get(
+      `/generate-description?prompt=${title}`,
+      accessTokenHeader(token!)
+    );
+    const parsedDescription = JSON.parse(response.data.description[0].slice(8, -4));
+    // Set to blocknote
+    editor.insertBlocks(parsedDescription, "4bbfc57b-d00c-49f6-af09-caf198534f1f", "after");
+    setIsGeneratingDescription(false);
+    return parsedDescription;
+  };
 
   return (
     <form
@@ -93,6 +124,16 @@ export default function CreateTaskForm({
         isRequired
         {...register("title")}
       />
+      <div className="flex justify-end">
+      <Button
+        color="primary"
+        onPress={() => generateDescription(watch("title"))}
+        isLoading={isGeneratingDescription}
+      >
+        Generate Description
+      </Button>
+      </div>
+      
       <div className="border rounded-lg border-gray-200 min-h-36">
         <div className="p-3 text-sm text-gray-700">Description</div>
         <Controller
@@ -141,14 +182,13 @@ export default function CreateTaskForm({
           errorMessage={errors.parentId?.message}
         >
           {parents.map((parent) => {
-            console.log(parent);
             return (
               <AutocompleteItem
                 key={parent.id}
                 textValue={parent.title}
                 startContent={taskIcons[parent.type]}
-            >
-              {parent.title}
+              >
+                {parent.title}
               </AutocompleteItem>
             );
           })}
