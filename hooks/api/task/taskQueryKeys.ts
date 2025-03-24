@@ -17,6 +17,7 @@ const taskQueryKeys = {
     "children",
     parentTaskRef,
   ],
+  gen: (title: string) => [...taskQueryKeys.all, "project", "generate description", title],
 };
 
 export default taskQueryKeys;
