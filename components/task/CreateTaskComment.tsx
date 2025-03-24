@@ -47,30 +47,11 @@ export default function CreateTaskComment({ projectId, task, submitFn }: CreateT
     },
   });
 
-  // useEffect(() => {
-  //     if (isSubmitSuccessful) {
-  //       resetField("content");
-  //       setValue("content", JSON.stringify(editor.document));
-  //       console.log(watch("content"));
-  //     }
-  //   }, [isSubmitSuccessful, resetField]);
 
   const onSubmit = (data: CreateTaskCommentType) => {
     submitFn(data);
 
-    setValue(
-      "content",
-      JSON.stringify([
-        {
-          type: "paragraph",
-          props: { textColor: "default", backgroundColor: "default", textAlignment: "left" },
-          content: [{ type: "text", text: " ", styles: {} }],
-          children: [],
-        },
-      ])
-    );
-
-    console.log("RESET", watch("content"));
+    editor.removeBlocks(editor.document)
   };
 
   return (
