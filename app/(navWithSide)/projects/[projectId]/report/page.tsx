@@ -7,7 +7,7 @@ import useProjectTypeOverview from "@/hooks/api/report/useProjectTypeOverview";
 import useProjectEpicTaskOverview from "@/hooks/api/report/useProjectEpicTaskOverview";
 import useProjectAssigneeOverviewBySprint from "@/hooks/api/report/useProjectAssigneeOverviewBySprint";
 import { useParams } from "next/navigation";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ChartOptions, TooltipItem } from "chart.js";
 import { Pie, Bar } from "react-chartjs-2";
 
 // Register ChartJS components
@@ -104,13 +104,13 @@ export default function ProjectReportPage() {
   if (isStatusPending || isPriorityPending || isTypePending || isEpicPending || isAssigneePending) {
     return <LoadingScreen />;
   }
-
-  // Type assertions
-  const statusData = projectStatusOverview as ProjectStatusOverview;
-  const priorityData = projectPriorityOverview as ProjectPriorityOverview;
-  const typeData = projectTypeOverview as ProjectTypeOverview;
-  const epicData = projectEpicTaskOverview as ProjectEpicTaskOverview;
-  const assigneeData = projectAssigneeOverviewBySprint as ProjectAssigneeOverviewBySprint;
+  
+  // Type assertions (safeguard against undefined data)
+  const statusData = (projectStatusOverview ?? { statuses: [], totalCount: 0 }) as ProjectStatusOverview;
+  const priorityData = (projectPriorityOverview ?? { priorities: [], totalCount: 0 }) as ProjectPriorityOverview;
+  const typeData = (projectTypeOverview ?? { types: [], totalCount: 0 }) as ProjectTypeOverview;
+  const epicData = (projectEpicTaskOverview ?? { epics: [], totalCount: 0 }) as ProjectEpicTaskOverview;
+  const assigneeData = (projectAssigneeOverviewBySprint ?? { sprints: [], totalCount: 0 }) as ProjectAssigneeOverviewBySprint;
 
   // Status Chart (Pie Chart)
   const statusChartData = {
@@ -118,19 +118,19 @@ export default function ProjectReportPage() {
     datasets: [
       {
         data: statusData.statuses.map((s) => s.count),
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#FF6384", "#36A2EB"],
       },
     ],
   };
 
-  const statusOptions = {
+  const statusOptions: ChartOptions<'pie'> = {
     responsive: true,
-    maintainAspectRatio: false, // Allow the chart to stretch
+    maintainAspectRatio: false,
     plugins: {
-      legend: { position: "top" as const },
+      legend: { position: "top" },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
+          label: (context: TooltipItem<'pie'>): string => {
             const value = context.parsed;
             const percentage = statusData.statuses[context.dataIndex].percent;
             return `${context.label}: ${value} (${percentage.toFixed(1)}%)`;
@@ -152,12 +152,12 @@ export default function ProjectReportPage() {
         MEDIUM: "#FBBF24",
         HIGH: "#F97316",
         CRITICAL: "#EF4444",
-      }[p.priority],
+      }[p.priority] ?? "#6B7280", // Fallback color
     })),
   };
 
-  const priorityOptions = {
-    indexAxis: "y" as const,
+  const priorityOptions: ChartOptions<'bar'> = {
+    indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -165,11 +165,11 @@ export default function ProjectReportPage() {
       y: { stacked: true },
     },
     plugins: {
-      legend: { position: "bottom" as const },
+      legend: { position: "bottom" },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
-            const value = context.raw;
+          label: (context: TooltipItem<'bar'>): string => {
+            const value = context.raw as number;
             const percentage = priorityData.priorities[context.datasetIndex].percent;
             return `${context.dataset.label}: ${value} (${percentage.toFixed(1)}%)`;
           },
@@ -190,8 +190,8 @@ export default function ProjectReportPage() {
     ],
   };
 
-  const typeOptions = {
-    indexAxis: "y" as const,
+  const typeOptions: ChartOptions<'bar'> = {
+    indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -201,8 +201,8 @@ export default function ProjectReportPage() {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
-            const value = context.raw;
+          label: (context: TooltipItem<'bar'>): string => {
+            const value = context.raw as number;
             const percentage = typeData.types[context.dataIndex].percent;
             return `${context.label}: ${value} (${percentage.toFixed(1)}%)`;
           },
@@ -211,34 +211,34 @@ export default function ProjectReportPage() {
     },
   };
 
-  // Epic Chart (Stacked Horizontal Bar for Statuses)
-  const epicChartData = {
-    labels: epicData.epics.map((e) => e.title),
-    datasets: [
-      {
-        label: "Done",
-        data: epicData.epics.map((e) => e.statuses.find((s) => s.status === "DONE")?.count || 0),
-        backgroundColor: "#10B981",
-      },
-      {
-        label: "In Progress",
-        data: epicData.epics.map((e) =>
-          e.statuses
-            .filter((s) => s.status === "IN_DEV" || s.status === "IN_TEST")
-            .reduce((sum, s) => sum + s.count, 0)
-        ),
-        backgroundColor: "#3B82F6",
-      },
-      {
-        label: "To Do",
-        data: epicData.epics.map((e) => e.statuses.find((s) => s.status === "TODO")?.count || 0),
-        backgroundColor: "#6B7280",
-      },
-    ],
+  // Function to generate a unique color for each status dynamically
+  const generateColor = (index: number, total: number): string => {
+    const hue = (index * 360) / total;
+    return `hsl(${hue}, 70%, 50%)`;
   };
 
-  const epicOptions = {
-    indexAxis: "y" as const,
+  // Extract unique statuses from the data
+  const allStatuses: string[] = [...new Set(
+    epicData.epics.flatMap((e) => e.statuses.map((s) => s.status))
+  )].sort();
+
+  console.log("All Statuses:", allStatuses);
+  console.log("Epic Data:", epicData.epics);
+
+  // Epic Chart (Stacked Horizontal Bar)
+  const epicChartData = {
+    labels: epicData.epics.map((e) => e.title),
+    datasets: allStatuses.map((status, index) => ({
+      label: status,
+      data: epicData.epics.map((e) =>
+        e.statuses.find((s) => s.status === status)?.count || 0
+      ),
+      backgroundColor: generateColor(index, allStatuses.length),
+    })),
+  };
+
+  const epicOptions: ChartOptions<'bar'> = {
+    indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -246,19 +246,15 @@ export default function ProjectReportPage() {
       y: { stacked: true },
     },
     plugins: {
-      legend: { position: "bottom" as const },
+      legend: { position: "bottom" },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
-            const value = context.raw;
+          label: (context: TooltipItem<'bar'>): string => {
+            const value = context.raw as number;
             const epicIndex = context.dataIndex;
-            const statusLabel = context.dataset.label;
-            const status = epicData.epics[epicIndex].statuses.find((s) =>
-              statusLabel === "Done"
-                ? s.status === "DONE"
-                : statusLabel === "In Progress"
-                  ? s.status === "IN_DEV" || s.status === "IN_TEST"
-                  : s.status === "TODO"
+            const statusLabel = context.dataset.label as string;
+            const status = epicData.epics[epicIndex].statuses.find(
+              (s) => s.status === statusLabel
             );
             const percentage = status ? status.percent : 0;
             return `${statusLabel}: ${value} (${percentage.toFixed(1)}%)`;
@@ -283,7 +279,6 @@ export default function ProjectReportPage() {
     });
   });
 
-  // Calculate total tasks and percentages
   const totalTasks = Object.values(assigneeWorkload).reduce((sum, a) => sum + a.taskCount, 0);
   Object.values(assigneeWorkload).forEach((a) => {
     a.taskPercent = totalTasks ? (a.taskCount / totalTasks) * 100 : 0;
@@ -300,8 +295,8 @@ export default function ProjectReportPage() {
     ],
   };
 
-  const assigneeOptions = {
-    indexAxis: "y" as const,
+  const assigneeOptions: ChartOptions<'bar'> = {
+    indexAxis: "y",
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -311,8 +306,8 @@ export default function ProjectReportPage() {
       legend: { display: false },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
-            const value = context.raw;
+          label: (context: TooltipItem<'bar'>): string => {
+            const value = context.raw as number;
             const percentage = Object.values(assigneeWorkload)[context.dataIndex].taskPercent;
             return `${context.label}: ${value} (${percentage.toFixed(1)}%)`;
           },
@@ -324,7 +319,7 @@ export default function ProjectReportPage() {
   return (
     <div className="min-h-screen p-4">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-[calc(100vh-10rem)] overflow-x-auto overflow-y-scroll p-3 scrollbar-hide" >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-[calc(100vh-10rem)] overflow-x-auto overflow-y-scroll p-3 scrollbar-hide">
         {/* Epic Chart (Stacked Horizontal Bar) */}
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-2">Epic Progress</h2>
